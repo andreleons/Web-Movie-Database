@@ -1,4 +1,4 @@
-package Rebus;
+package rebus;
 
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package Rebus;
+package rebus;
 
 import java.awt.Font;
 
@@ -16,6 +16,14 @@ public class Config  {
 	// Two static variables for managing the entire gameCollection
 		public static BigWordCollection entireCollection;
 		public static BigWordCollection gameCollection;
+		//Topic chose for the game
+		public static String topic;
+		//The letter position to use for the solution
+		public static int rebusX;
+		//The length for the solution word
+		public static int solutionLength;
+		//The strength of the words to use on the game board
+		public static int wordStrength;
 		
 		
 	// Use these directories if we are using $HOME

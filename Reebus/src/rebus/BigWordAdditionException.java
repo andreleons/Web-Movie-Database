@@ -1,4 +1,4 @@
-package Rebus;
+package rebus;
 
 
 public class BigWordAdditionException extends Exception 
