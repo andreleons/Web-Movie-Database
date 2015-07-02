@@ -41,7 +41,7 @@ public class Config  {
 //	public static String SOUND_DIR = System.getProperty("user.home") + "\\ICS499\\te\\res\\";
 
 	// Use these directories if we are asking the users to unzip the data to a particular directory
-    public static String INPUT_FILE = "input_words.txt";
+    public static String INPUT_FILE = "/resources/input_words.txt";
 	public static String IMAGE_DIR = "C:\\QuizMaster\\te\\res\\";
 	public static String SOUND_DIR = "C:\\QuizMaster\\te\\res\\";
 	
