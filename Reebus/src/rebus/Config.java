@@ -1,6 +1,7 @@
 package rebus;
 
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
@@ -18,12 +19,18 @@ public class Config  {
 		public static BigWordCollection gameCollection;
 		//Topic chose for the game
 		public static String topic;
+		
+		public static ArrayList<String> solutionWord;
 		//The letter position to use for the solution
 		public static int rebusX;
 		//The length for the solution word
 		public static int solutionLength;
 		//The strength of the words to use on the game board
 		public static int wordStrength;
+		
+		public static int MAX_WORD_LENGTH;
+		
+		public static ArrayList<ArrayList<String>> GAME_WORDS;
 		
 		
 	// Use these directories if we are using $HOME
