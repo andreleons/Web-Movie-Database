@@ -18,19 +18,21 @@ public class Config  {
 		public static BigWordCollection entireCollection;
 		public static BigWordCollection gameCollection;
 		//Topic chose for the game
-		public static String topic;
+		public static String topic = "Any";
 		
 		public static ArrayList<String> solutionWord;
 		//The letter position to use for the solution
-		public static int rebusX;
+		public static int rebusX = 1;
 		//The length for the solution word
-		public static int solutionLength;
+		public static int solutionLength = 3;
 		//The strength of the words to use on the game board
-		public static int wordStrength;
+		public static int wordStrength = 1;
 		
-		public static int MAX_WORD_LENGTH;
+		public static int MAX_WORD_LENGTH = 10;
+		public static String LANGUAGE = "En";
 		
 		public static ArrayList<ArrayList<String>> GAME_WORDS;
+		public static String optionsGameModes = "";
 		
 		
 	// Use these directories if we are using $HOME
@@ -150,12 +152,17 @@ public class Config  {
     public static final String NOT_FOUND_IMAGE = IMAGE_DIR + "no_image.jpg";
     
 	// Language and Font settings 
-    public static String LANGUAGE = "Telugu"; // hard coded configuration
+    //public static String LANGUAGE = "Telugu"; // hard coded configuration
     public static String FONT_NAME = "Gidugu"; 
 	public static int FONT_SIZE = 18;
 	public static Font LABELFONT = new Font("Calibri", Font.BOLD,20);
 	public static Font WELCOME_FONT = new Font("Calibri", Font.BOLD,40);
 	// Static variables for the FONTs
 	public static Font TELUGU_FONT;
+	
+	//font file
+		public static String FontFile = "/resources/Gidugu.ttf";
+		//
+		
 			
 }

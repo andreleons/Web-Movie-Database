@@ -14,19 +14,12 @@ public class Rebus {
 	
 	//Sets Config.gameCollection to the appropriate settings
 	public void generateWordPool() {
-		Config.topic = "Any";
-		Config.LANGUAGE = "En";
-		Config.rebusX = 1;
-		Config.solutionLength = 3;
-		Config.wordStrength = 1;
-		Config.MAX_WORD_LENGTH = 10;
 		BigWordCollection temp = Config.entireCollection.getBigWordCollectionByTopic(Config.topic);
 		Config.gameCollection = temp;
-		pickSolutionWord(temp);
-		findGameWords(temp);
 	}
 	
-	private void findGameWords(BigWordCollection words){
+	public void findGameWords(){
+		BigWordCollection words = Config.gameCollection;
 		BigWordCollection possibleWords = words.getBigWordCollectionByWordStrength(Config.wordStrength);
 		BigWordCollection trimmedWords = possibleWords.getBigWordCollectionByWordLength(Config.rebusX, Config.MAX_WORD_LENGTH);
 		ArrayList<ArrayList<String>> readableWords = new ArrayList<ArrayList<String>>();
@@ -54,13 +47,11 @@ public class Rebus {
 					break;
 				}
 			}
-			
 		}
-		
-		
 	}
 	
-	private void pickSolutionWord(BigWordCollection words){
+	public void pickSolutionWord(){
+		BigWordCollection words = Config.gameCollection;
 		BigWordCollection possibleSolutions = words.getBigWordCollectionByWordLength(Config.solutionLength);
 		Random rand = new Random();
 		BigWord solution = possibleSolutions.getBigWord(rand.nextInt(possibleSolutions.size()-1)+1);
