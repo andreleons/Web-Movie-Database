@@ -5,12 +5,15 @@ package rebus;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
+
 
 
 /**
@@ -91,46 +94,40 @@ public class BigWordCollection
 	}
 
 
-	/**
-	 * Reads lines from a text file one by one and sends them to the addBigWord method. Catches a BigWordAdditionException if one is thrown,
-	 * and exits the program as per instructions.  It is possible however, to not exit and skip to the next line. This is a one line code change
-	 * that involves removing the exit statement. reads UTF-8
-	 * @param filename is a string that represents the path of the file to read
-	 * @throws IOException is thrown if the file fails to load
-	 */
-	private void processBigWordsInputFile(String filename) throws IOException 
+/**
+ * Reads lines from a text file one by one and sends them to the addBigWord method. Catches a BigWordAdditionException if one is thrown,
+ * and exits the program as per instructions.  It is possible however, to not exit and skip to the next line. This is a one line code change
+ * that involves removing the exit statement. reads UTF-8
+ * @param filename is a string that represents the path of the file to read
+ * @throws IOException is thrown if the file fails to load
+ */
+private void processBigWordsInputFile(String filename) throws IOException 
+{
+	String line_read = "";
+	
+	InputStream is = getClass().getResourceAsStream(filename);
+    Reader readerStream = new InputStreamReader(is, "UTF-8");
+    
+	BufferedReader reader = new BufferedReader(readerStream);
+	
+	line_read = reader.readLine(); 
+	
+	int lineNumber = 0;
+	while ((line_read = reader.readLine()) != null) 
 	{
-		String line_read = "";
-		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(
-						new FileInputStream(filename), "UTF-8"));
-
-		// igore the first line. we don't need the header line
-		line_read = reader.readLine(); 
-
-		//System.out.println(line_read);
-
-		int lineNumber = 0;
-		while ((line_read = reader.readLine()) != null) 
+		lineNumber++;
+		try 
 		{
-			//System.out.println(line_read);
-
-			lineNumber++;
-			try 
-			{
-				addBigWord(line_read);
-			} 
-			catch (BigWordAdditionException e) 
-			{
-				System.out.println(e.getMessage() + "Exiting with error code 0 at test data line # " + lineNumber);
-				System.exit(0);
-			}
+			addBigWord(line_read);
+		} 
+		catch (BigWordAdditionException e) 
+		{
+			System.out.println(e.getMessage() + "Exiting with error code 0 at test data line # " + lineNumber);
+			System.exit(0);
 		}
-		reader.close();
-		
-		
-		
 	}
+	reader.close();
+}
 
 	/**
 	 * Adds a BigWord to the collection 

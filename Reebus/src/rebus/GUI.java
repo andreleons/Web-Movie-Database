@@ -28,6 +28,9 @@ import javax.swing.SwingConstants;
 
 
 public class GUI {
+	
+
+	
 	private Font font;
 	@SuppressWarnings("rawtypes")
 	private JComboBox selectGameMode;
@@ -43,21 +46,7 @@ public class GUI {
 	JTabbedPane tabStrip;
 	private JTextField wordPoolSizeTextField;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUI window = new GUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the application.
