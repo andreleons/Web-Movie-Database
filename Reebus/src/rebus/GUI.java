@@ -151,6 +151,8 @@ public class GUI {
 		JButton letsPlayButton1 = new JButton("Let's Play!");
 		letsPlayButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				rebus.pickSolutionWord();
+				rebus.findGameWords();
 			}
 		});
 		letsPlayButton1.setBounds(105, 379, 131, 56);
@@ -173,24 +175,24 @@ public class GUI {
 
 		//Word Length
 		selectWordLength = new JComboBox();
-		selectWordLength.setBounds(280, 209, 66, 20);
+		selectWordLength.setBounds(280, 257, 66, 20);
 		panelConfig.add(selectWordLength);
 
 		//max elapsed time
 		wordStrengthDropDown = new JComboBox();
-		wordStrengthDropDown.setBounds(280, 247, 66, 20);
+		wordStrengthDropDown.setBounds(280, 288, 66, 20);
 		panelConfig.add(wordStrengthDropDown);
 
 		//label rows / columns
 		JLabel lblRows = new JLabel("Max Word Length: ");
 		lblRows.setForeground(Color.DARK_GRAY);
-		lblRows.setBounds(119, 212, 151, 14);
+		lblRows.setBounds(119, 260, 151, 14);
 		panelConfig.add(lblRows);
 
 		//label time elapsed
 		JLabel wordStrengthLabel = new JLabel("Word Strength");
 		wordStrengthLabel.setForeground(Color.DARK_GRAY);
-		wordStrengthLabel.setBounds(119, 250, 151, 14);
+		wordStrengthLabel.setBounds(119, 291, 151, 14);
 		panelConfig.add(wordStrengthLabel);
 
 		//label config tab header
@@ -231,7 +233,7 @@ public class GUI {
 		wordPoolSizeTextField.setColumns(10);
 
 		JLabel wordPoolSizeLabel = new JLabel("Size of Current Word Pool");
-		wordPoolSizeLabel.setBounds(119, 77, 131, 27);
+		wordPoolSizeLabel.setBounds(119, 77, 151, 27);
 		panelConfig.add(wordPoolSizeLabel);
 
 		JLabel topicLabel = new JLabel("Topic");
@@ -263,6 +265,21 @@ public class GUI {
 		});
 		solutionLengthComboBox.setBounds(280, 150, 66, 20);
 		panelConfig.add(solutionLengthComboBox);
+		
+		JLabel languageLabel = new JLabel("Language");
+		languageLabel.setBounds(119, 187, 89, 14);
+		panelConfig.add(languageLabel);
+		
+		JComboBox languageComboBox = new JComboBox(populateLanguageBox());
+		languageComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String language = (String) languageComboBox.getSelectedItem();
+				Config.LANGUAGE = language.substring(0,2);
+				System.out.println("Selected " + Config.LANGUAGE + " as the new Language");
+			}
+		});
+		languageComboBox.setBounds(280, 184, 66, 20);
+		panelConfig.add(languageComboBox);
 
 		updateWordPoolSize();
 	}
@@ -309,6 +326,13 @@ public class GUI {
 		for (int i = 0; i < 15; i++) {
 			retVal.add(i);
 		}
+		return retVal;
+	}
+	
+	public Vector<String> populateLanguageBox() {
+		Vector<String> retVal = new Vector<String>();
+		retVal.add("English");
+		//retVal.add("Telugu");
 		return retVal;
 	}
 }
