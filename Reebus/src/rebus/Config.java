@@ -16,15 +16,18 @@ public class Config  {
 		
 	// Two static variables for managing the entire gameCollection
 		public static BigWordCollection entireCollection;
-		public static BigWordCollection gameCollection;
+		public static BigWordCollection gameCollectionWordBank;
+		public static BigWordCollection gameCollectionSolutionBank;
+		
 		//Topic chose for the game
-		public static String topic = "Any";
+		public static String wordBankTopic = "Any";
+		public static String solutionBankTopic = "Any";
 		
 		public static ArrayList<String> solutionWord;
 		//The letter position to use for the solution
 		public static int rebusX = 1;
-		//The length for the solution word
-		public static int solutionLength = 3;
+		//The length for the solution word, 0 represents any length
+		public static int solutionLength = 0;
 		//The strength of the words to use on the game board
 		public static int wordStrength = 1;
 		

@@ -9,17 +9,26 @@ public class Rebus {
 	Rebus() {
 		Config.entireCollection = new BigWordCollection();
 		//Set Config.gameCollection to the appropriate settings
-		generateWordPool();
+		generateWordBank();
 	}
 	
 	//Sets Config.gameCollection to the appropriate settings
-	public void generateWordPool() {
-		BigWordCollection temp = Config.entireCollection.getBigWordCollectionByTopic(Config.topic);
-		Config.gameCollection = temp;
+	public void generateWordBank() {
+		BigWordCollection temp = Config.entireCollection.getBigWordCollectionByTopic(Config.wordBankTopic);
+		Config.gameCollectionWordBank = temp;
+	}
+	
+	public void generateSolutionBank() {
+		BigWordCollection temp = Config.entireCollection.getBigWordCollectionByTopic(Config.solutionBankTopic);
+		//0 Represents any solution length
+		if (Config.solutionLength != 0) {
+			temp = temp.getBigWordCollectionByWordLength(Config.solutionLength);
+		}
+		Config.gameCollectionSolutionBank = temp;
 	}
 	
 	public void findGameWords(){
-		BigWordCollection words = Config.gameCollection;
+		BigWordCollection words = Config.gameCollectionWordBank;
 		BigWordCollection possibleWords = words.getBigWordCollectionByWordStrength(Config.wordStrength);
 		BigWordCollection trimmedWords = possibleWords.getBigWordCollectionByWordLength(Config.rebusX, Config.MAX_WORD_LENGTH);
 		ArrayList<ArrayList<String>> readableWords = new ArrayList<ArrayList<String>>();
@@ -51,10 +60,16 @@ public class Rebus {
 	}
 	
 	public void pickSolutionWord(){
-		BigWordCollection words = Config.gameCollection;
-		BigWordCollection possibleSolutions = words.getBigWordCollectionByWordLength(Config.solutionLength);
+		BigWordCollection possibleSolutions = Config.gameCollectionSolutionBank;
 		Random rand = new Random();
-		BigWord solution = possibleSolutions.getBigWord(rand.nextInt(possibleSolutions.size()-1)+1);
+		BigWord solution;
+		if (possibleSolutions.size() > 1) {
+			solution = possibleSolutions.getBigWord(rand.nextInt(possibleSolutions.size()-1)+1);
+		}
+		else {
+			solution = possibleSolutions.getBigWord(0);
+		}
+
 		
 		WordProcessor word;
 		if(Config.LANGUAGE.equals("En")){
@@ -64,7 +79,6 @@ public class Rebus {
 			word = new WordProcessor(solution.getTelugu());
 			Config.solutionWord = word.getLogicalChars();
 		}
-		
 		System.out.println("Solution Word: "+word.getWord());
 	}
 }

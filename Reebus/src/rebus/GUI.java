@@ -24,6 +24,7 @@ import java.util.Vector;
 import java.util.Map.Entry;
 
 import javax.swing.SwingConstants;
+import java.awt.Dimension;
 
 
 
@@ -44,7 +45,8 @@ public class GUI {
 	JFrame frame;
 	@SuppressWarnings("rawtypes")
 	JTabbedPane tabStrip;
-	private JTextField wordPoolSizeTextField;
+	private JTextField wordBankSizeTextField;
+	private JTextField solutionBankSizeTextField;
 
 
 
@@ -62,7 +64,7 @@ public class GUI {
 		//main window
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 524, 590);
+		frame.setBounds(100, 100, 623, 593);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -80,7 +82,7 @@ public class GUI {
 		//tab strip
 		tabStrip = new JTabbedPane(JTabbedPane.TOP);
 		tabStrip.setBorder(null);
-		tabStrip.setBounds(10, 11, 498, 539);
+		tabStrip.setBounds(10, 11, 597, 539);
 		frame.getContentPane().add(tabStrip);
 
 		//init welcome panel
@@ -95,7 +97,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				Config.rebusX=(selectGameMode.getSelectedIndex() + 1);
 				System.out.println("Rebus: " + Config.rebusX + " selected");
-				updateWordPoolSize();
+				updateWordBankSize();
 			}
 		});
 		selectGameMode.setBounds(257, 84, 100, 25);
@@ -152,24 +154,24 @@ public class GUI {
 
 		//Word Length
 		selectWordLength = new JComboBox();
-		selectWordLength.setBounds(280, 257, 66, 20);
+		selectWordLength.setBounds(191, 218, 66, 20);
 		panelConfig.add(selectWordLength);
 
 		//max elapsed time
 		wordStrengthDropDown = new JComboBox();
-		wordStrengthDropDown.setBounds(280, 288, 66, 20);
+		wordStrengthDropDown.setBounds(191, 249, 66, 20);
 		panelConfig.add(wordStrengthDropDown);
 
 		//label rows / columns
 		JLabel lblRows = new JLabel("Max Word Length: ");
 		lblRows.setForeground(Color.DARK_GRAY);
-		lblRows.setBounds(119, 260, 151, 14);
+		lblRows.setBounds(10, 223, 151, 14);
 		panelConfig.add(lblRows);
 
 		//label time elapsed
 		JLabel wordStrengthLabel = new JLabel("Word Strength");
 		wordStrengthLabel.setForeground(Color.DARK_GRAY);
-		wordStrengthLabel.setBounds(119, 291, 151, 14);
+		wordStrengthLabel.setBounds(10, 252, 151, 14);
 		panelConfig.add(wordStrengthLabel);
 
 		//label config tab header
@@ -203,48 +205,49 @@ public class GUI {
 		panelConfig.setVisible(true);
 		panelConfig.setLayout(null);
 
-		wordPoolSizeTextField = new JTextField();
-		wordPoolSizeTextField.setEditable(false);
-		wordPoolSizeTextField.setBounds(280, 80, 66, 20);
-		panelConfig.add(wordPoolSizeTextField);
-		wordPoolSizeTextField.setColumns(10);
+		wordBankSizeTextField = new JTextField();
+		wordBankSizeTextField.setEditable(false);
+		wordBankSizeTextField.setBounds(191, 155, 66, 20);
+		panelConfig.add(wordBankSizeTextField);
+		wordBankSizeTextField.setColumns(10);
 
-		JLabel wordPoolSizeLabel = new JLabel("Size of Current Word Pool");
-		wordPoolSizeLabel.setBounds(119, 77, 151, 27);
-		panelConfig.add(wordPoolSizeLabel);
+		JLabel wordBankSizeLabel = new JLabel("Size of Current Word Pool");
+		wordBankSizeLabel.setBounds(10, 148, 151, 27);
+		panelConfig.add(wordBankSizeLabel);
 
 		JLabel topicLabel = new JLabel("Topic");
-		topicLabel.setBounds(119, 117, 46, 14);
+		topicLabel.setBounds(10, 190, 101, 14);
 		panelConfig.add(topicLabel);
 
 		JComboBox topicComboBox = new JComboBox(populateTopicBox());
 		topicComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Config.topic = (String) topicComboBox.getSelectedItem();
-				System.out.println("Selected " + Config.topic + " as the new topic");
-				updateWordPoolSize();
+				Config.wordBankTopic = (String) topicComboBox.getSelectedItem();
+				System.out.println("Selected " + Config.wordBankTopic + " as the new word bank topic");
+				updateWordBankSize();
 			}
 		});
-		topicComboBox.setBounds(279, 114, 191, 20);
+		topicComboBox.setBounds(106, 187, 151, 20);
 		panelConfig.add(topicComboBox);
 		
 		JLabel solutionLengthLabel = new JLabel("Solution Length");
-		solutionLengthLabel.setBounds(119, 153, 101, 14);
+		solutionLengthLabel.setBounds(296, 221, 101, 14);
 		panelConfig.add(solutionLengthLabel);
 		
 		JComboBox solutionLengthComboBox = new JComboBox(populateSolutionLengthBox());
-		solutionLengthComboBox.setSelectedIndex(3);
+		solutionLengthComboBox.setSelectedIndex(0);
 		solutionLengthComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Config.solutionLength = (Integer) solutionLengthComboBox.getSelectedItem();
+				Config.solutionLength = (Integer) solutionLengthComboBox.getSelectedIndex();
 				System.out.println("Selected new solution length of " + Config.solutionLength);
+				updateSolutionBankSize();
 			}
 		});
-		solutionLengthComboBox.setBounds(280, 150, 66, 20);
+		solutionLengthComboBox.setBounds(488, 217, 75, 20);
 		panelConfig.add(solutionLengthComboBox);
 		
 		JLabel languageLabel = new JLabel("Language");
-		languageLabel.setBounds(119, 187, 89, 14);
+		languageLabel.setBounds(210, 82, 89, 14);
 		panelConfig.add(languageLabel);
 		
 		JComboBox languageComboBox = new JComboBox(populateLanguageBox());
@@ -255,10 +258,61 @@ public class GUI {
 				System.out.println("Selected " + Config.LANGUAGE + " as the new Language");
 			}
 		});
-		languageComboBox.setBounds(280, 184, 66, 20);
+		languageComboBox.setBounds(296, 79, 81, 20);
 		panelConfig.add(languageComboBox);
+		
+		JLabel solutionBankSizeLabel = new JLabel("Size of Current Solution Pool");
+		solutionBankSizeLabel.setBounds(296, 154, 157, 14);
+		panelConfig.add(solutionBankSizeLabel);
+		
+		solutionBankSizeTextField = new JTextField();
+		solutionBankSizeTextField.setBounds(488, 151, 75, 20);
+		panelConfig.add(solutionBankSizeTextField);
+		solutionBankSizeTextField.setColumns(10);
+		
+		JLabel solutionTopicLabel = new JLabel("Topic");
+		solutionTopicLabel.setBounds(296, 190, 104, 14);
+		panelConfig.add(solutionTopicLabel);
+		
+		JComboBox solutionTopicComboBox = new JComboBox(populateSolutionTopics());
+		solutionTopicComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Config.solutionBankTopic = (String) solutionTopicComboBox.getSelectedItem();
+				System.out.println("Selected " + Config.solutionBankTopic + " as the new solution bank topic");
+				updateSolutionBankSize();
+			}
+		});
+		solutionTopicComboBox.setBounds(428, 184, 135, 20);
+		panelConfig.add(solutionTopicComboBox);
+		
+		JLabel lblSolutionWordStrength = new JLabel("Word Strength");
+		lblSolutionWordStrength.setBounds(296, 252, 135, 14);
+		panelConfig.add(lblSolutionWordStrength);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(428, 249, 65, 20);
+		panelConfig.add(comboBox_1);
+		
+		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setBounds(503, 249, 60, 20);
+		panelConfig.add(comboBox_2);
+		
+		JComboBox comboBox_3 = new JComboBox();
+		comboBox_3.setBounds(107, 249, 75, 20);
+		panelConfig.add(comboBox_3);
+		
+		JLabel lblWordBankOptions = new JLabel("Word Bank Options");
+		lblWordBankOptions.setFont(new Font("David", Font.BOLD | Font.ITALIC, 21));
+		lblWordBankOptions.setBounds(51, 115, 196, 29);
+		panelConfig.add(lblWordBankOptions);
+		
+		JLabel lblSolutionBankOptions = new JLabel("Solution Bank Options");
+		lblSolutionBankOptions.setFont(new Font("David", Font.BOLD | Font.ITALIC, 21));
+		lblSolutionBankOptions.setBounds(330, 114, 233, 29);
+		panelConfig.add(lblSolutionBankOptions);
 
-		updateWordPoolSize();
+		updateWordBankSize();
+		updateSolutionBankSize();
 	}
 
 	public Vector<String> populateGameModes() {
@@ -273,16 +327,25 @@ public class GUI {
 	}
 
 	/**
-	 * Generates a new Config.gameCollection based on the current settings
+	 * Generates a new Config.gameCollectionWordBank based on the current settings
 	 * Updates the field that display the size of the current collection
 	 */
-	public void updateWordPoolSize() {
-		rebus.generateWordPool();
-		wordPoolSizeTextField.setText(String.valueOf(Config.gameCollection.size())); 
+	public void updateWordBankSize() {
+		rebus.generateWordBank();
+		wordBankSizeTextField.setText(String.valueOf(Config.gameCollectionWordBank.size())); 
 	}
 	
 	/**
-	 * Populates the topic list
+	 * Generates a new Config.gameCollectionSolutionBank based on the current settings
+	 * Updates the field that display the size of the current collection
+	 */
+	public void updateSolutionBankSize() {
+		rebus.generateSolutionBank();
+		solutionBankSizeTextField.setText(String.valueOf(Config.gameCollectionSolutionBank.size())); 
+	}
+	
+	/**
+	 * Populates the topic list for the word bank
 	 *
 	 *
 	 * @return
@@ -299,9 +362,28 @@ public class GUI {
 		return topicStrings.toArray();
 	}
 	
-	private Vector<Integer> populateSolutionLengthBox() {
-		Vector<Integer> retVal = new Vector<Integer>();
-		for (int i = 0; i < 15; i++) {
+	/**
+	 * Populates the topic list for the solution bank
+	 *
+	 *
+	 * @return
+	 */
+	private Object[] populateSolutionTopics() {
+		ArrayList<String> topicStrings = new ArrayList<String>();
+		topicStrings.add("Any");
+		Hashtable<String, ArrayList<BigWord>> selects = Config.entireCollection
+				.getBigWordsTopicsTable();
+		for (Entry<String, ArrayList<BigWord>> entry : selects.entrySet()) {
+			String key = entry.getKey();
+			topicStrings.add(key);
+		}
+		return topicStrings.toArray();
+	}
+	
+	private Vector<Object> populateSolutionLengthBox() {
+		Vector<Object> retVal = new Vector<Object>();
+		retVal.add("Any");
+		for (int i = 1; i < 63; i++) {
 			retVal.add(i);
 		}
 		return retVal;
@@ -310,7 +392,7 @@ public class GUI {
 	public Vector<String> populateLanguageBox() {
 		Vector<String> retVal = new Vector<String>();
 		retVal.add("English");
-		//retVal.add("Telugu");
+		retVal.add("Telugu");
 		return retVal;
 	}
 }
