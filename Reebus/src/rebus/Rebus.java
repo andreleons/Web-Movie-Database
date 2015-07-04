@@ -8,6 +8,7 @@ public class Rebus {
 	
 	Rebus() {
 		Config.entireCollection = new BigWordCollection();
+		Config.entireCollection.printWordStrengths();
 		//Set Config.gameCollection to the appropriate settings
 		generateWordBank();
 	}
@@ -24,6 +25,7 @@ public class Rebus {
 		if (Config.solutionLength != 0) {
 			temp = temp.getBigWordCollectionByWordLength(Config.solutionLength);
 		}
+		temp = temp.getBigWordCollectionByWordStrength(Config.solutionBankWordStrengthMin, Config.solutionBankWordStrengthMax);
 		Config.gameCollectionSolutionBank = temp;
 	}
 	

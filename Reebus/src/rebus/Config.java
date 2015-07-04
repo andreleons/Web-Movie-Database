@@ -30,6 +30,8 @@ public class Config  {
 		public static int solutionLength = 0;
 		//The strength of the words to use on the game board
 		public static int wordStrength = 1;
+		public static int solutionBankWordStrengthMin = 1;
+		public static int solutionBankWordStrengthMax = 10;
 		
 		public static int MAX_WORD_LENGTH = 10;
 		public static String LANGUAGE = "En";
