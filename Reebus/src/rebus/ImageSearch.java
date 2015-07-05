@@ -42,7 +42,7 @@ public class ImageSearch {
 	           // String imageUrl = json.getJSONObject("responseData").getJSONArray("results").getJSONObject(i).getString("url");
 
 	               BufferedImage image = ImageIO.read(new URL(imageUrl));
-
+ 
 	            // for downloading the image
 	            // connection.setRequestProperty("User-Agent","Mozilla/5.0 (X11; U; Linux x86_64; en-GB; rv:1.8.1.6) Gecko/20070723 Iceweasel/2.0.0.6 (Debian-2.0.0.6-0etch1)");
 

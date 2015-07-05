@@ -23,6 +23,7 @@ public class Rebus {
 		BigWordCollection temp = Config.entireCollection.getBigWordCollectionByTopic(Config.solutionBankTopic);
 		//0 Represents any solution length
 		if (Config.solutionLength != 0) {
+			//TODO: Build this to add words based on parsed length, and not length before, else Telugu will not work
 			temp = temp.getBigWordCollectionByWordLength(Config.solutionLength);
 		}
 		temp = temp.getBigWordCollectionByWordStrength(Config.solutionBankWordStrengthMin, Config.solutionBankWordStrengthMax);
@@ -32,6 +33,7 @@ public class Rebus {
 	public void findGameWords(){
 		BigWordCollection words = Config.gameCollectionWordBank;
 		BigWordCollection possibleWords = words.getBigWordCollectionByWordStrength(Config.wordStrength);
+
 		BigWordCollection trimmedWords = possibleWords.getBigWordCollectionByWordLength(Config.rebusX, Config.MAX_WORD_LENGTH);
 		ArrayList<ArrayList<String>> readableWords = new ArrayList<ArrayList<String>>();
 		WordProcessor word;
@@ -71,7 +73,7 @@ public class Rebus {
 		else {
 			solution = possibleSolutions.getBigWord(0);
 		}
-
+		
 		
 		WordProcessor word;
 		if(Config.LANGUAGE.equals("En")){
@@ -80,6 +82,8 @@ public class Rebus {
 		} else {
 			word = new WordProcessor(solution.getTelugu());
 			Config.solutionWord = word.getLogicalChars();
+			System.out.println("Before Parse Size: "+ solution.getTelugu().length());
+			System.out.println("Size: "+Config.solutionWord.size());
 		}
 		System.out.println("Solution Word: "+word.getWord());
 	}
