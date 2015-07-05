@@ -21,10 +21,23 @@ public class Rebus {
 	
 	public void generateSolutionBank() {
 		BigWordCollection temp = Config.entireCollection.getBigWordCollectionByTopic(Config.solutionBankTopic);
+		BigWordCollection teluguSolutions = new BigWordCollection();
+		teluguSolutions.getAllBigWords().clear();
+		WordProcessor word;
 		//0 Represents any solution length
-		if (Config.solutionLength != 0) {
-			//TODO: Build this to add words based on parsed length, and not length before, else Telugu will not work
+		if (Config.solutionLength != 0 && Config.LANGUAGE.equals("En")) {
 			temp = temp.getBigWordCollectionByWordLength(Config.solutionLength);
+			
+		} else if (Config.solutionLength != 0 ){
+			for(BigWord bigWord: temp.getAllBigWords()){
+				word = new WordProcessor(bigWord.getTelugu());
+				if(word.getLogicalChars().size() == Config.solutionLength){
+					teluguSolutions.addBigWord(bigWord);
+					System.out.println("Logical Size during selection: "+word.getLogicalLength());
+				}
+			}
+			System.out.println("Telugu List Size: "+teluguSolutions.size());
+			temp = teluguSolutions;
 		}
 		temp = temp.getBigWordCollectionByWordStrength(Config.solutionBankWordStrengthMin, Config.solutionBankWordStrengthMax);
 		Config.gameCollectionSolutionBank = temp;
@@ -67,6 +80,9 @@ public class Rebus {
 		BigWordCollection possibleSolutions = Config.gameCollectionSolutionBank;
 		Random rand = new Random();
 		BigWord solution;
+		WordProcessor word;
+	
+		
 		if (possibleSolutions.size() > 1) {
 			solution = possibleSolutions.getBigWord(rand.nextInt(possibleSolutions.size()-1)+1);
 		}
@@ -74,15 +90,13 @@ public class Rebus {
 			solution = possibleSolutions.getBigWord(0);
 		}
 		
-		
-		WordProcessor word;
 		if(Config.LANGUAGE.equals("En")){
 			word = new WordProcessor(solution.getEnglish());
 			Config.solutionWord = word.getLogicalChars() ;
 		} else {
 			word = new WordProcessor(solution.getTelugu());
+			System.out.println("Logical Length: "+ word.getLogicalLength());
 			Config.solutionWord = word.getLogicalChars();
-			System.out.println("Before Parse Size: "+ solution.getTelugu().length());
 			System.out.println("Size: "+Config.solutionWord.size());
 		}
 		System.out.println("Solution Word: "+word.getWord());
