@@ -24,6 +24,7 @@ public class Config  {
 		public static String solutionBankTopic = "Any";
 		
 		public static ArrayList<String> solutionWord;
+		public static ArrayList<String> urls;
 		//The letter position to use for the solution
 		public static int rebusX = 1;
 		//The length for the solution word, 0 represents any length

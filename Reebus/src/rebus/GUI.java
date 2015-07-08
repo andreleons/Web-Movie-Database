@@ -191,8 +191,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				rebus.pickSolutionWord();
 				rebus.findGameWords();
-				ImageSearch test = new ImageSearch("Cat");
-				System.out.println("URL: "+test.getImageUrl());
+			
 			}
 
 		});
@@ -201,7 +200,9 @@ public class GUI {
 		JButton btnGenerateHTML = new JButton("Generate HTML");
 		btnGenerateHTML.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
+				System.out.println(HtmlGameProducer.buildBoard());
+				HtmlSolutionProducer solution = new HtmlSolutionProducer();
+				HtmlOutputProducer output;
 			}
 		});
 		btnGenerateHTML.setBounds(260, 393, 140, 50);

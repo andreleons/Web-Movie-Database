@@ -17,7 +17,7 @@ public class ImageSearch {
 	public ImageSearch(String word){
 		this.word = word;
 	}
-	
+	//Later may add support for picking an image closest to the desired size
 	public String getImageUrl(){
 		 String imageUrl="";
 		  try{

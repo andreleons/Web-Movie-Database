@@ -61,6 +61,7 @@ public class Rebus {
 			}
 		}
 		ArrayList<ArrayList<String>> gameWords = new ArrayList<ArrayList<String>>();
+		ArrayList<String> urls = new ArrayList<String>();
 		for(int i = 0; i< Config.solutionLength;i++){
 			//create some randomness for different boards to be made from same solution word
 			Collections.shuffle(readableWords);
@@ -69,11 +70,15 @@ public class Rebus {
 				{
 					word = new WordProcessor(temp);
 					System.out.println(word.getWord());
-					gameWords.add(temp);
+					ImageSearch test = new ImageSearch(word.getWord());
+					urls.add(test.getImageUrl());
+					gameWords.add(word.getLogicalChars());
 					break;
 				}
 			}
 		}
+		Config.GAME_WORDS = gameWords;
+		Config.urls = urls;
 	}
 	
 	public void pickSolutionWord(){
