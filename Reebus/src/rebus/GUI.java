@@ -237,7 +237,6 @@ public class GUI {
 		panelConfig.add(solutionLengthLabel);
 		
 		JComboBox solutionLengthComboBox = new JComboBox(populateSolutionLengthBox());
-		solutionLengthComboBox.setSelectedIndex(0);
 		solutionLengthComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Config.solutionLength = (Integer) solutionLengthComboBox.getSelectedIndex();
@@ -306,6 +305,7 @@ public class GUI {
 		panelConfig.add(solutionBankWordStrengthMin);
 		
 		JComboBox solutionBankWordStrengthMax = new JComboBox(populateWordStrengths());
+		solutionBankWordStrengthMax.setSelectedIndex(9);
 		solutionBankWordStrengthMax.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Config.solutionBankWordStrengthMax = (Integer) solutionBankWordStrengthMax.getSelectedItem();
@@ -313,7 +313,6 @@ public class GUI {
 				updateSolutionBankSize();
 			}
 		});
-		solutionBankWordStrengthMax.setSelectedIndex(9);
 		solutionBankWordStrengthMax.setBounds(503, 249, 60, 20);
 		panelConfig.add(solutionBankWordStrengthMax);
 		
@@ -330,6 +329,7 @@ public class GUI {
 		
 		//max elapsed time
 		wordBankWordStrengthMax = new JComboBox(populateWordStrengths());
+		wordBankWordStrengthMax.setSelectedIndex(9);
 		wordBankWordStrengthMax.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Config.wordBankWordStrengthMax = (Integer) wordBankWordStrengthMax.getSelectedItem();
@@ -337,7 +337,6 @@ public class GUI {
 				updateWordBankSize();
 			}
 		});
-		wordBankWordStrengthMax.setSelectedIndex(9);
 		wordBankWordStrengthMax.setBounds(191, 249, 66, 20);
 		panelConfig.add(wordBankWordStrengthMax);
 

@@ -505,23 +505,25 @@ private void processBigWordsInputFile(String filename) throws IOException
 		ArrayList<BigWord> mini_collection = new ArrayList<BigWord>();
 		WordProcessor wp;
 		String str;
-		
-		if(min != 0 || max != 0) {
+
+		if(min != 1 || max != 10) {
 			mini_collection = new ArrayList<BigWord>();	
 
 			for (BigWord a_word: bigWordsList){
 
 				// the length of the Telugu word is the strength of that word
 				// the length of the Telugu word tells how many code points made that word
-				str = a_word.getEnglish();
-				if(Config.LANGUAGE.equals("Te")) {
+
+				if(Config.LANGUAGE.equals("En")) {
+					str = a_word.getEnglish();
+				}
+				else {
 					str = a_word.getTelugu();
 				}
 
 				
 				wp = new WordProcessor(str);
 				int word_strength = wp.getWordStrength();
-				System.out.println("Current Word Strength " + wp.getWordStrength());
 				
 				
 				
@@ -530,20 +532,13 @@ private void processBigWordsInputFile(String filename) throws IOException
 						mini_collection.add(a_word);
 					}
 				}
-//				if(min > 0 && max == 0) {
-//					if(word_strength >= min){
-//						mini_collection.add(a_word);
-//					}
-//					continue;
-//				}				
+			
 			}			
 		}
 		else {
-			 mini_collection = new ArrayList<BigWord>(bigWordsList);
-			 System.out.println("created new list by word strength");
+			 return this;
 		}
 
-		System.out.println("Return list of size " + mini_collection.size());
 		return new BigWordCollection(mini_collection);
 	}
 	

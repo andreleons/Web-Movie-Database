@@ -32,7 +32,6 @@ public class Rebus {
 			System.out.println("Telugu List Size: "+teluguSolutions.size());
 			temp = teluguSolutions;
 		}
-		System.out.println("Before word strength is applied " + temp.size());
 		temp = temp.getBigWordCollectionByWordStrength(Config.wordBankWordStrengthMin, Config.wordBankWordStrengthMax);
 		Config.gameCollectionWordBank = temp;
 	}
@@ -57,7 +56,6 @@ public class Rebus {
 			System.out.println("Telugu List Size: "+teluguSolutions.size());
 			temp = teluguSolutions;
 		}
-		System.out.println("Before word strength is applied " + temp.size());
 		temp = temp.getBigWordCollectionByWordStrength(Config.solutionBankWordStrengthMin, Config.solutionBankWordStrengthMax);
 		Config.gameCollectionSolutionBank = temp;
 	}
