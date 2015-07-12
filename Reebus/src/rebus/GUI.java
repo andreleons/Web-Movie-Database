@@ -153,21 +153,18 @@ public class GUI {
 		//------------------------------------------------------
 
 		//Word Length
-		selectWordLength = new JComboBox();
+		selectWordLength = new JComboBox(populateWordMaxLengthBox());
+		selectWordLength.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Config.wordBankMaxLength = (Integer) selectWordLength.getSelectedIndex();
+				System.out.println("Selected new word bank max size of " + Config.wordBankMaxLength);
+				updateWordBankSize();
+			}
+		});
 		selectWordLength.setBounds(191, 218, 66, 20);
 		panelConfig.add(selectWordLength);
 
-		//max elapsed time
-		wordBankWordStrengthMax = new JComboBox(populateWordStrengths());
-		wordBankWordStrengthMax.setSelectedIndex(9);
-		wordBankWordStrengthMax.setBounds(191, 249, 66, 20);
-		panelConfig.add(wordBankWordStrengthMax);
 
-		//label rows / columns
-		JLabel lblRows = new JLabel("Max Word Length: ");
-		lblRows.setForeground(Color.DARK_GRAY);
-		lblRows.setBounds(10, 223, 151, 14);
-		panelConfig.add(lblRows);
 
 		//label time elapsed
 		JLabel wordStrengthLabel = new JLabel("Word Strength");
@@ -261,6 +258,8 @@ public class GUI {
 				String language = (String) languageComboBox.getSelectedItem();
 				Config.LANGUAGE = language.substring(0,2);
 				System.out.println("Selected " + Config.LANGUAGE + " as the new Language");
+				updateSolutionBankSize();
+				updateWordBankSize();
 			}
 		});
 		languageComboBox.setBounds(296, 79, 81, 20);
@@ -319,8 +318,34 @@ public class GUI {
 		panelConfig.add(solutionBankWordStrengthMax);
 		
 		JComboBox wordBankWordStrengthMin = new JComboBox(populateWordStrengths());
+		wordBankWordStrengthMin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Config.wordBankWordStrengthMin = (Integer) wordBankWordStrengthMin.getSelectedItem();
+				System.out.println("Selected " + Config.wordBankWordStrengthMin + " as the new word bank min word strength");
+				updateWordBankSize();
+			}
+		});
 		wordBankWordStrengthMin.setBounds(107, 249, 75, 20);
 		panelConfig.add(wordBankWordStrengthMin);
+		
+		//max elapsed time
+		wordBankWordStrengthMax = new JComboBox(populateWordStrengths());
+		wordBankWordStrengthMax.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Config.wordBankWordStrengthMax = (Integer) wordBankWordStrengthMax.getSelectedItem();
+				System.out.println("Selected " + Config.wordBankWordStrengthMax + " as the new word bank max word strength");
+				updateWordBankSize();
+			}
+		});
+		wordBankWordStrengthMax.setSelectedIndex(9);
+		wordBankWordStrengthMax.setBounds(191, 249, 66, 20);
+		panelConfig.add(wordBankWordStrengthMax);
+
+		//label rows / columns
+		JLabel lblRows = new JLabel("Max Word Length: ");
+		lblRows.setForeground(Color.DARK_GRAY);
+		lblRows.setBounds(10, 223, 151, 14);
+		panelConfig.add(lblRows);
 		
 		JLabel lblWordBankOptions = new JLabel("Word Bank Options");
 		lblWordBankOptions.setFont(new Font("David", Font.BOLD | Font.ITALIC, 21));
@@ -404,7 +429,16 @@ public class GUI {
 	private Vector<Object> populateSolutionLengthBox() {
 		Vector<Object> retVal = new Vector<Object>();
 		retVal.add("Any");
-		for (int i = 1; i < 63; i++) {
+		for (int i = 1; i < 30; i++) {
+			retVal.add(i);
+		}
+		return retVal;
+	}
+	
+	private Vector<Object> populateWordMaxLengthBox() {
+		Vector<Object> retVal = new Vector<Object>();
+		retVal.add("Any");
+		for (int i = 1; i < 30; i++) {
 			retVal.add(i);
 		}
 		return retVal;

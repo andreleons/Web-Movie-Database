@@ -487,7 +487,7 @@ private void processBigWordsInputFile(String filename) throws IOException
 	
 	public void printWordStrengths() {
 		for (BigWord a_word : bigWordsList) {
-			WordProcessor wp = new WordProcessor(a_word.getEnglish());
+			WordProcessor wp = new WordProcessor(a_word.getTelugu());
 			System.out.println(wp.getWordStrength());
 		}
 	}
@@ -514,19 +514,21 @@ private void processBigWordsInputFile(String filename) throws IOException
 				// the length of the Telugu word is the strength of that word
 				// the length of the Telugu word tells how many code points made that word
 				str = a_word.getEnglish();
-				if(Config.LANGUAGE == "Telugu") {
+				if(Config.LANGUAGE.equals("Te")) {
 					str = a_word.getTelugu();
 				}
 
 				
 				wp = new WordProcessor(str);
 				int word_strength = wp.getWordStrength();
+				System.out.println("Current Word Strength " + wp.getWordStrength());
+				
+				
 				
 				if(min >= 0 && max > 0) {
 					if(word_strength >= min && word_strength <= max){
 						mini_collection.add(a_word);
 					}
-					continue;
 				}
 //				if(min > 0 && max == 0) {
 //					if(word_strength >= min){
@@ -541,7 +543,7 @@ private void processBigWordsInputFile(String filename) throws IOException
 			 System.out.println("created new list by word strength");
 		}
 
-		
+		System.out.println("Return list of size " + mini_collection.size());
 		return new BigWordCollection(mini_collection);
 	}
 	
@@ -807,14 +809,14 @@ private void processBigWordsInputFile(String filename) throws IOException
 	//***********************************************************************************************************************
 
 
-	/*
-	 * Test routine for BigWordCollection
-	 */
-	public static void main(String[] args) throws Exception
-	{
-		System.out.println("Opening ..." + Config.INPUT_FILE);
-		BigWordCollection x = new BigWordCollection();
-		System.out.println(x);
-		
-	}
+//	/*
+//	 * Test routine for BigWordCollection
+//	 */
+//	public static void main(String[] args) throws Exception
+//	{
+//		System.out.println("Opening ..." + Config.INPUT_FILE);
+//		BigWordCollection x = new BigWordCollection();
+//		System.out.println(x);
+//		
+//	}
 }

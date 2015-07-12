@@ -8,14 +8,32 @@ public class Rebus {
 	
 	Rebus() {
 		Config.entireCollection = new BigWordCollection();
-		Config.entireCollection.printWordStrengths();
 		//Set Config.gameCollection to the appropriate settings
-		generateWordBank();
 	}
 	
 	//Sets Config.gameCollection to the appropriate settings
 	public void generateWordBank() {
 		BigWordCollection temp = Config.entireCollection.getBigWordCollectionByTopic(Config.wordBankTopic);
+		BigWordCollection teluguSolutions = new BigWordCollection();
+		teluguSolutions.getAllBigWords().clear();
+		WordProcessor word;
+		//0 Represents any solution length
+		if (Config.wordBankMaxLength != 0 && Config.LANGUAGE.equals("En")) {
+			temp = temp.getBigWordCollectionByWordLength(0, Config.wordBankMaxLength);
+			
+		} else if (Config.wordBankMaxLength != 0 ){
+			for(BigWord bigWord: temp.getAllBigWords()){
+				word = new WordProcessor(bigWord.getTelugu());
+				if(word.getLogicalChars().size() <= Config.wordBankMaxLength){
+					teluguSolutions.addBigWord(bigWord);
+					//System.out.println("Logical Size during selection: "+word.getLogicalLength());
+				}
+			}
+			System.out.println("Telugu List Size: "+teluguSolutions.size());
+			temp = teluguSolutions;
+		}
+		System.out.println("Before word strength is applied " + temp.size());
+		temp = temp.getBigWordCollectionByWordStrength(Config.wordBankWordStrengthMin, Config.wordBankWordStrengthMax);
 		Config.gameCollectionWordBank = temp;
 	}
 	
@@ -33,12 +51,13 @@ public class Rebus {
 				word = new WordProcessor(bigWord.getTelugu());
 				if(word.getLogicalChars().size() == Config.solutionLength){
 					teluguSolutions.addBigWord(bigWord);
-					System.out.println("Logical Size during selection: "+word.getLogicalLength());
+					//System.out.println("Logical Size during selection: "+word.getLogicalLength());
 				}
 			}
 			System.out.println("Telugu List Size: "+teluguSolutions.size());
 			temp = teluguSolutions;
 		}
+		System.out.println("Before word strength is applied " + temp.size());
 		temp = temp.getBigWordCollectionByWordStrength(Config.solutionBankWordStrengthMin, Config.solutionBankWordStrengthMax);
 		Config.gameCollectionSolutionBank = temp;
 	}

@@ -29,10 +29,13 @@ public class Config  {
 		public static int rebusX = 1;
 		//The length for the solution word, 0 represents any length
 		public static int solutionLength = 0;
+		public static int wordBankMaxLength = 0;
 		//The strength of the words to use on the game board
 		public static int wordStrength = 1;
 		public static int solutionBankWordStrengthMin = 1;
 		public static int solutionBankWordStrengthMax = 10;
+		public static int wordBankWordStrengthMin = 1;
+		public static int wordBankWordStrengthMax = 10;
 		
 		public static int MAX_WORD_LENGTH = 10;
 		public static String LANGUAGE = "En";
