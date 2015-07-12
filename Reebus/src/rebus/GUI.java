@@ -24,7 +24,12 @@ import java.util.Vector;
 import java.util.Map.Entry;
 
 import javax.swing.SwingConstants;
+
 import java.awt.Dimension;
+import javax.swing.JTextArea;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 
 
@@ -47,6 +52,8 @@ public class GUI {
 	JTabbedPane tabStrip;
 	private JTextField wordBankSizeTextField;
 	private JTextField solutionBankSizeTextField;
+	private JTextField solutionWordTextFieldAdmin;
+	private JTextArea solutionWordTextAreaAdmin;
 
 
 
@@ -108,7 +115,7 @@ public class GUI {
 		lblGameModesToGen.setForeground(Color.BLACK);
 		lblGameModesToGen.setBounds(113, 89, 151, 14);
 		panelWelcome.add(lblGameModesToGen);
-		tabStrip.addTab( "Welcome", panelWelcome );
+		tabStrip.addTab( "Play", panelWelcome );
 
 
 		//crossword logo image icon
@@ -132,6 +139,24 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				rebus.pickSolutionWord();
 				rebus.findGameWords();
+				solutionWordTextAreaAdmin.setText("");
+				if (Config.LANGUAGE.equals("En")) {
+					solutionWordTextFieldAdmin.setText(Config.solutionBigWord.getEnglish());
+					for (int i = 0; i < Config.gameBigWords.size(); i++) {
+						if (!Config.gameBigWords.get(i).getEnglish().equals("")) {
+							solutionWordTextAreaAdmin.append(Config.gameBigWords.get(i).getEnglish() + "\n");
+						}
+					}
+				}
+				else {
+					solutionWordTextFieldAdmin.setText(Config.solutionBigWord.getTelugu());
+					for (int i = 0; i < Config.gameBigWords.size(); i++) {
+						if (!Config.gameBigWords.get(i).getEnglish().equals("")) {
+							solutionWordTextAreaAdmin.append(Config.gameBigWords.get(i).getTelugu() + "\n");
+						}
+					}
+				}
+		
 			}
 		});
 		letsPlayButton1.setBounds(105, 379, 131, 56);
@@ -178,32 +203,6 @@ public class GUI {
 		lblConfigHeader.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 29));
 		lblConfigHeader.setBounds(0, 25, 493, 35);
 		panelConfig.add(lblConfigHeader);
-
-		//button generate puzzles
-		JButton btnPlay = new JButton("Let's Play!");
-		btnPlay.setBounds(106, 393, 140, 50);
-		btnPlay.setVisible(true);
-		panelConfig.add(btnPlay);
-		btnPlay.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				rebus.pickSolutionWord();
-				rebus.findGameWords();
-			
-			}
-
-		});
-
-		//generate this puzzle button
-		JButton btnGenerateHTML = new JButton("Generate HTML");
-		btnGenerateHTML.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println(HtmlGameProducer.buildBoard());
-				HtmlSolutionProducer solution = new HtmlSolutionProducer();
-				HtmlOutputProducer output;
-			}
-		});
-		btnGenerateHTML.setBounds(260, 393, 140, 50);
-		panelConfig.add(btnGenerateHTML);
 		panelConfig.setVisible(true);
 		panelConfig.setLayout(null);
 
@@ -358,6 +357,151 @@ public class GUI {
 
 		updateWordBankSize();
 		updateSolutionBankSize();
+		
+		//init Admin Panel
+		JPanel panelAdmin = new JPanel();
+		panelAdmin.setBackground(Color.GRAY);
+		panelAdmin.setBounds(10, 51, 424, 431);
+		panelAdmin.setLayout(null);
+		tabStrip.addTab( "Admin", panelAdmin );
+		
+		JLabel solutionWordLabelAdmin = new JLabel("Solution Word");
+		solutionWordLabelAdmin.setBounds(10, 99, 87, 26);
+		panelAdmin.add(solutionWordLabelAdmin);
+		
+		JLabel lblAdminPanel = new JLabel("Admin Panel");
+		lblAdminPanel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAdminPanel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 29));
+		lblAdminPanel.setBounds(54, 27, 493, 35);
+		panelAdmin.add(lblAdminPanel);
+		
+		solutionWordTextFieldAdmin = new JTextField();
+		solutionWordTextFieldAdmin.setBounds(105, 102, 99, 20);
+		panelAdmin.add(solutionWordTextFieldAdmin);
+		solutionWordTextFieldAdmin.setColumns(10);
+		
+		JButton solutionWordButtonAdmin = new JButton("Generate Game Words");
+		solutionWordButtonAdmin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String word = "";
+				try {
+					word = solutionWordTextFieldAdmin.getText();
+				} catch (NullPointerException error) {
+					System.out.println("Solution word can't be empty");
+					error.printStackTrace();
+				}		
+				WordProcessor wp = new WordProcessor(word);
+				BigWord bigWord = new BigWord();
+				if (Config.LANGUAGE.equals("En")) {
+					bigWord.setEnglish(word);
+				}
+				else {
+					bigWord.setTelugu(word);
+				}
+				Config.solutionWord = wp.getLogicalChars();
+				Config.solutionBigWord = bigWord;
+				rebus.findGameWords();
+				solutionWordTextAreaAdmin.setText("");
+				if (Config.LANGUAGE.equals("En")) {
+					solutionWordTextFieldAdmin.setText(Config.solutionBigWord.getEnglish());
+					for (int i = 0; i < Config.gameBigWords.size(); i++) {
+						if (!Config.gameBigWords.get(i).getEnglish().equals("")) {
+							solutionWordTextAreaAdmin.append(Config.gameBigWords.get(i).getEnglish() + "\n");
+						}
+					}
+				}
+				else {
+					solutionWordTextFieldAdmin.setText(Config.solutionBigWord.getTelugu());
+					for (int i = 0; i < Config.gameBigWords.size(); i++) {
+						if (!Config.gameBigWords.get(i).getEnglish().equals("")) {
+							solutionWordTextAreaAdmin.append(Config.gameBigWords.get(i).getTelugu() + "\n");
+						}
+					}
+				}
+			}
+		});
+		solutionWordButtonAdmin.setBounds(398, 101, 184, 23);
+		panelAdmin.add(solutionWordButtonAdmin);
+		
+		JLabel lblGameWords = new JLabel("Game Words");
+		lblGameWords.setBounds(54, 263, 99, 14);
+		panelAdmin.add(lblGameWords);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(245, 331, -11, -8);
+		panelAdmin.add(textArea);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBounds(163, 165, 327, 272);
+		panelAdmin.add(scrollPane);
+		
+		solutionWordTextAreaAdmin = new JTextArea();
+		scrollPane.setViewportView(solutionWordTextAreaAdmin);
+		
+		JButton btnNewButton_1 = new JButton("Generate Solution Word");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rebus.pickSolutionWord();
+				if (Config.LANGUAGE.equals("En")) {
+					solutionWordTextFieldAdmin.setText(Config.solutionBigWord.getEnglish());
+				}
+				else {
+					solutionWordTextFieldAdmin.setText(Config.solutionBigWord.getTelugu());
+				}
+			}
+		});
+		btnNewButton_1.setBounds(214, 101, 174, 23);
+		panelAdmin.add(btnNewButton_1);
+		
+		JButton btnNewButton = new JButton("Finalize Changes to Puzzle");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String word = "";
+				try {
+					word = solutionWordTextFieldAdmin.getText();
+				} catch (NullPointerException error) {
+					System.out.println("Solution word can't be empty");
+					error.printStackTrace();
+				}		
+				WordProcessor wp = new WordProcessor(word);
+				BigWord bigWord = new BigWord();
+				if (Config.LANGUAGE.equals("En")) {
+					bigWord.setEnglish(word);
+				}
+				else {
+					bigWord.setTelugu(word);
+				}
+				Config.solutionWord = wp.getLogicalChars();
+				Config.solutionBigWord = bigWord;
+				Config.GAME_WORDS.clear();
+				Config.gameBigWords.clear();
+				if (Config.LANGUAGE.equals("En")) {
+					for (String line : solutionWordTextAreaAdmin.getText().split("\\n")) {
+						BigWord temp = new BigWord();
+						temp.setEnglish(line);
+						Config.gameBigWords.add(temp);
+						//System.out.println("Adding " + temp.getEnglish());
+						WordProcessor wordProccessor = new WordProcessor(line);
+						Config.GAME_WORDS.add(wordProccessor.getLogicalChars());
+					}
+				}
+				else {
+						for (String line : solutionWordTextAreaAdmin.getText().split("\\n")) {
+							BigWord temp = new BigWord();
+							temp.setTelugu(line);
+							Config.gameBigWords.add(temp);
+							//System.out.println("Adding " + temp.getTelugu());
+							WordProcessor wordProccessor = new WordProcessor(line);
+							Config.GAME_WORDS.add(wordProccessor.getLogicalChars());
+						}
+				}
+				System.out.println("updated game solution and puzzle words");
+			}
+		});
+		btnNewButton.setBounds(225, 465, 216, 35);
+		panelAdmin.add(btnNewButton);
 	}
 
 	public Vector<String> populateGameModes() {

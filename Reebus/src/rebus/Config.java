@@ -43,7 +43,7 @@ public class Config  {
 		public static String LANGUAGE = "En";
 		
 		public static ArrayList<BigWord> gameBigWords = new ArrayList<BigWord>();
-		public static ArrayList<ArrayList<String>> GAME_WORDS;
+		public static ArrayList<ArrayList<String>> GAME_WORDS = new ArrayList<ArrayList<String>>();
 		public static String optionsGameModes = "";
 		
 		
