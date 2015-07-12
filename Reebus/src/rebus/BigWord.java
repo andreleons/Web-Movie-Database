@@ -1,5 +1,7 @@
 package rebus;
 
+import java.util.ArrayList;
+
 
 
 
@@ -39,6 +41,10 @@ public class BigWord implements Comparable<BigWord>
 
     //for representing the resource location for the sound file
     private String sound;
+
+	private ArrayList<String> processedEnglish;
+    
+    private ArrayList<String> processedTelegu;
 
     /**
      * Default Constructor For BigWord Class
@@ -257,6 +263,22 @@ public class BigWord implements Comparable<BigWord>
     	// their length and strength are all same. 
     	return 0;
     }
+    
+    public ArrayList<String> getProcessedEnglish() {
+		return processedEnglish;
+	}
+
+	public void setProcessedEnglish(ArrayList<String> processedEnglish) {
+		this.processedEnglish = processedEnglish;
+	}
+
+	public ArrayList<String> getProcessedTelegu() {
+		return processedTelegu;
+	}
+
+	public void setProcessedTelegu(ArrayList<String> processedTelegu) {
+		this.processedTelegu = processedTelegu;
+	}
 
     /**
     * main( ) method for  BigWord Class

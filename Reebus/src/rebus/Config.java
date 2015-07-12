@@ -24,7 +24,9 @@ public class Config  {
 		public static String solutionBankTopic = "Any";
 		
 		public static ArrayList<String> solutionWord;
+		public static BigWord solutionBigWord;
 		public static ArrayList<String> urls;
+
 		//The letter position to use for the solution
 		public static int rebusX = 1;
 		//The length for the solution word, 0 represents any length
@@ -40,6 +42,7 @@ public class Config  {
 		public static int MAX_WORD_LENGTH = 10;
 		public static String LANGUAGE = "En";
 		
+		public static ArrayList<BigWord> gameBigWords = new ArrayList<BigWord>();
 		public static ArrayList<ArrayList<String>> GAME_WORDS;
 		public static String optionsGameModes = "";
 		
