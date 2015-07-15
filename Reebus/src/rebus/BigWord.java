@@ -42,6 +42,8 @@ public class BigWord implements Comparable<BigWord>
     //for representing the resource location for the sound file
     private String sound;
 
+    private String processedWord;
+    
 	private ArrayList<String> processedEnglish;
     
     private ArrayList<String> processedTelegu;
@@ -279,8 +281,17 @@ public class BigWord implements Comparable<BigWord>
 	public void setProcessedTelegu(ArrayList<String> processedTelegu) {
 		this.processedTelegu = processedTelegu;
 	}
+	
 
-    /**
+    public String getProcessedWord() {
+		return processedWord;
+	}
+
+	public void setProcessedWord(String processedWord) {
+		this.processedWord = processedWord;
+	}
+
+	/**
     * main( ) method for  BigWord Class
     */
     public static void main(String args[])

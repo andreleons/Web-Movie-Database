@@ -18,10 +18,6 @@ public class HtmlGameProducer {
 		return table;
 	}
 	
-	private String buildGameSection(){
-		String gameSection = "<td>";
-		return null;
-	}
 	private static String generateGameSection(){
 		ArrayList<String> urls = Config.urls;
 		String gameRow = "<tr>";
@@ -30,17 +26,11 @@ public class HtmlGameProducer {
 			
 				gameRow += "<img src= ' "+urls.get(i)+"' style='height:200px;width:200px;'/>";
 			
-			gameRow += "</td>";
+			gameRow += "</td>\n";
 		}
+		gameRow+= "<td><div>Solution: </div></td>";
 		return gameRow += "</tr>";
 	}
-	/**
-	 * Only needed in rebus n
-	 * @return
-	 */
-	private String generateIndexTableRows(){
-		
-		return null;
-	}
+
 
 }

@@ -84,7 +84,6 @@ public class Rebus {
 			}
 		}
 
-		ArrayList<ArrayList<String>> gameWords = new ArrayList<ArrayList<String>>();
 		ArrayList<String> urls = new ArrayList<String>();
 		for(int i = 0; i< Config.solutionWord.size();i++){
 			//create some randomness for different boards to be made from same solution word
@@ -92,9 +91,7 @@ public class Rebus {
 
 			ArrayList<String> temp = new ArrayList<String>();
 			for (int j = 0; j < readableWords.size(); j++) {
-//				System.out.println("j is " + j);
-//				System.out.println(randomIndexes[0]);
-//				System.out.print(randomIndexes[j] + " is the random index");
+
 				temp = readableWords.get(randomIndexes.get(j));
 				if(temp.get(Config.rebusX-1).equals(Config.solutionWord.get(i)))
 				{
@@ -102,34 +99,19 @@ public class Rebus {
 					//System.out.println(word.getWord());
 					ImageSearch test = new ImageSearch(word.getWord());
 					urls.add(test.getImageUrl());
-					if (Config.LANGUAGE.equals("En")) {
-						bigWords.get(randomIndexes.get(j)).setProcessedEnglish(word.getLogicalChars());
-					}
-					else {
-						bigWords.get(randomIndexes.get(j)).setProcessedTelegu(word.getLogicalChars());
-					}
-					//gameWords.add(word.getLogicalChars());
-					//System.out.println("This big word was added " + bigWords.get(j).getEnglish());
+					
+						bigWords.get(randomIndexes.get(j)).setProcessedWord(word.getWord());
+					
+				
 					Config.gameBigWords.add(bigWords.get(randomIndexes.get(j)));
 					break;
 				}
 			}
-//			for(ArrayList<String> temp: readableWords){
-//				if(temp.get(Config.rebusX-1).equals(Config.solutionWord.get(i)))
-//				{
-//					word = new WordProcessor(temp);
-//					System.out.println(word.getWord());
-//					ImageSearch test = new ImageSearch(word.getWord());
-//					urls.add(test.getImageUrl());
-//					gameWords.add(word.getLogicalChars());
-//					break;
-//				}
-//			}
+
 		}
 		for (int i = 0; i < Config.gameBigWords.size(); i++) {
 			System.out.println("Word " + Config.gameBigWords.get(i).getEnglish());
 		}
-		//Config.GAME_WORDS = gameWords;
 		Config.urls = urls;
 	}
 	
