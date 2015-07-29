@@ -122,19 +122,6 @@ public class GUI {
 		lblWelcomeHeader.setBounds(0, 25, 458, 29);
 		panelWelcome.add(lblWelcomeHeader);
 
-		JButton generateHTML1 = new JButton("Generate HTML");
-		generateHTML1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				HtmlOutputProducer.openHtml();
-
-			}
-
-		});
-
-		generateHTML1.setBounds(279, 377, 131, 61);
-		panelWelcome.add(generateHTML1);
-
 		JLabel lblInstructions = new JLabel("Instructions");
 		lblInstructions.setBounds(113, 150, 73, 25);
 		panelWelcome.add(lblInstructions);
@@ -477,6 +464,9 @@ public class GUI {
 		JButton btnNewButton = new JButton("Commit Manually Typed Entries");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int wordNumber = 0;
+				int stringsRead = 0;
+				boolean badPuzzle = false;
 				String word = "";
 				try {
 					word = solutionWordTextFieldAdmin.getText();
@@ -498,26 +488,67 @@ public class GUI {
 				if (Config.LANGUAGE.equals("En")) {
 					for (String line : solutionWordTextAreaAdmin.getText()
 							.split("\\n")) {
-						BigWord temp = new BigWord();
-						temp.setEnglish(line);
-						temp.setProcessedWord(line);
+						BigWord temp = null;
+						for (int i = 0; i < Config.entireCollection.size(); i++) {
+							if (Config.entireCollection.getBigWord(i).getEnglish().equals(line)) {
+								bigWord = Config.entireCollection.getBigWord(i);
+							}
+						}
+						if (temp == null) {
+							temp = new BigWord();
+							temp.setEnglish(line);
+							temp.setProcessedWord(line);
+						}
 						Config.gameBigWords.add(temp);
 						// System.out.println("Adding " + temp.getEnglish());
 						WordProcessor wordProccessor = new WordProcessor(line);
 						Config.GAME_WORDS.add(wordProccessor.getLogicalChars());
+						temp.setProcessedEnglish(wordProccessor.getLogicalChars());
+						if (temp.getProcessedEnglish().size() < Config.rebusX) {
+							badPuzzle = true;
+							JOptionPane.showMessageDialog (
+									   null, "This puzzle is incorrect, game word " + temp.getProcessedWord() + " does not result in character " + Config.solutionWord.get(wordNumber));
+						}
+						else if (!Config.solutionWord.get(wordNumber).equals(temp.getProcessedEnglish().get(Config.rebusX - 1))) {
+							badPuzzle = true;
+							JOptionPane.showMessageDialog (
+									   null, "This puzzle is incorrect, game word " + temp.getProcessedWord() + " does not result in character " + Config.solutionWord.get(wordNumber));
+						}
+						stringsRead++;
+						wordNumber++;
 					}
-				} else {
+				} 
+				else {
 					for (String line : solutionWordTextAreaAdmin.getText()
 							.split("\\n")) {
-						BigWord temp = new BigWord();
-						temp.setTelugu(line);
+						BigWord temp = null;
+						for (int i = 0; i < Config.entireCollection.size(); i++) {
+							if (Config.entireCollection.getBigWord(i).getEnglish().equals(line)) {
+								bigWord = Config.entireCollection.getBigWord(i);
+							}
+						}
+						if (temp == null) {
+							temp = new BigWord();
+							temp.setTelugu(line);
+							temp.setProcessedWord(line);
+						}
 						Config.gameBigWords.add(temp);
 						// System.out.println("Adding " + temp.getTelugu());
 						WordProcessor wordProccessor = new WordProcessor(line);
 						Config.GAME_WORDS.add(wordProccessor.getLogicalChars());
+						temp.setProcessedTelegu(wordProccessor.getLogicalChars());
+						stringsRead++;
+						wordNumber++;
 					}
 				}
-				System.out.println("updated game solution and puzzle words");
+				if (stringsRead > Config.solutionWord.size()) {
+					badPuzzle = true;
+					JOptionPane.showMessageDialog (
+							   null, "This puzzle is incorrect, game words longer than solution length" );
+				}
+				if (!badPuzzle) {
+					System.out.println("updated game solution and puzzle words");
+				}
 			}
 		});
 		btnNewButton.setBounds(146, 546, 216, 35);
@@ -589,6 +620,35 @@ public class GUI {
 		});
 		btnNewButton_2.setBounds(156, 597, 206, 35);
 		panelAdmin.add(btnNewButton_2);
+		
+		// init Manage Panel
+		JPanel panelManage = new JPanel();
+		panelManage.setBackground(Color.GRAY);
+		panelManage.setBounds(10, 51, 424, 431);
+		panelManage.setLayout(null);
+		tabStrip.addTab("Manage", panelManage);
+
+		JLabel lblManagePanel = new JLabel("Manage Games");
+		lblManagePanel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblManagePanel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 29));
+		lblManagePanel.setBounds(54, 27, 493, 35);
+		panelManage.add(lblManagePanel);
+		
+		JButton generateHTML1 = new JButton("Generate HTML");
+		generateHTML1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				HtmlOutputProducer.openHtml();
+			}
+
+		});
+
+		generateHTML1.setBounds(279, 377, 131, 61);
+		panelManage.add(generateHTML1);
+		
+		JButton saveGameButton = new JButton("Save Game");
+		saveGameButton.setBounds(420, 368, 148, 70);
+		panelManage.add(saveGameButton);
 	}
 
 	public Vector<String> populateGameModes() {

@@ -27,9 +27,10 @@ public class HtmlGameProducer {
 		for(int i =0; i < words.size(); i++){
 			gameRow += "\n<td>";
 				if(!words.get(i).hasImage()){
+					System.out.println("searching internet for picture of " + words.get(i).getProcessedWord());
 					gameRow += "<img src= ' "+ImageSearch.getImageUrl(words.get(i).getProcessedWord())+"' style='height:200px;width:200px;'/>";
 				}else{
-					System.out.println("Had Image");
+					System.out.println("Had Image of " + words.get(i).getProcessedWord());
 					gameRow += "<img src= ' "+words.get(i).getImage()+"' style='height:200px;width:200px;'/>";
 				}
 			
