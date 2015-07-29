@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
-
+/**
+ * Class for game logic
+ * @author marsh_000
+ *
+ */
 public class Rebus {
 
 	Rebus() {

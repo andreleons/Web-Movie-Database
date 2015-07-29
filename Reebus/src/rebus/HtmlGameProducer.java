@@ -10,7 +10,10 @@ import java.util.ArrayList;
 public class HtmlGameProducer {
 	
 	
-	
+	/**
+	 * Build the game board
+	 * @return
+	 */
 	public static String buildBoard(){
 		String table = "<table>/n";
 		table += generateGameSection();

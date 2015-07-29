@@ -12,7 +12,11 @@ import javax.swing.JOptionPane;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
+/**
+ * Class for contacting google image rest api
+ * @author marsh_000
+ *
+ */
 public class ImageSearch {
 
 	private static String noImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png";
