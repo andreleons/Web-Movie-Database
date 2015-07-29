@@ -112,6 +112,11 @@ public class Rebus {
 			Collections.shuffle(randomIndexes);
 
 			ArrayList<String> temp = new ArrayList<String>();
+			boolean noWordFound = true;
+			String testForBadCharacters = Config.solutionWord.get(i);
+			if (testForBadCharacters.equals("") || testForBadCharacters.equals("-") || testForBadCharacters.equals(" ")) {
+				noWordFound = false;
+			}
 			for (int j = 0; j < readableWords.size(); j++) {
 
 				int index = 0;
@@ -128,8 +133,14 @@ public class Rebus {
 							word.getWord());
 					Config.gameBigWords.add(bigWords.get(randomIndexes
 							.get(j)));
+					noWordFound = false;
 					break;
 				}
+			}
+			if (noWordFound) {
+				BigWord emptyWord = new BigWord();
+				emptyWord.setProcessedWord("*No Word Found*");
+				Config.gameBigWords.add(emptyWord);
 			}
 
 		}

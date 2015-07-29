@@ -6,6 +6,7 @@ import java.awt.GraphicsEnvironment;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -73,7 +74,7 @@ public class GUI {
 		// main window
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 750, 710);
+		frame.setBounds(100, 100, 793, 765);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -93,7 +94,7 @@ public class GUI {
 		// tab strip
 		tabStrip = new JTabbedPane(JTabbedPane.TOP);
 		tabStrip.setBorder(null);
-		tabStrip.setBounds(10, 11, 724, 649);
+		tabStrip.setBounds(10, 11, 767, 715);
 		frame.getContentPane().add(tabStrip);
 
 		// init welcome panel
@@ -531,24 +532,11 @@ public class GUI {
 				if (Config.LANGUAGE.equals("En")) {
 					solutionWordTextFieldAdmin.setText(Config.solutionBigWord
 							.getEnglish());
-					for (int i = 0; i < Config.gameBigWords.size(); i++) {
-						if (!Config.gameBigWords.get(i).getEnglish().equals("")) {
-							solutionWordTextAreaAdmin
-							.append(Config.gameBigWords.get(i)
-									.getEnglish() + "\n");
-						}
-					}
 				} else {
 					solutionWordTextFieldAdmin.setText(Config.solutionBigWord
 							.getTelugu());
-					for (int i = 0; i < Config.gameBigWords.size(); i++) {
-						if (!Config.gameBigWords.get(i).getEnglish().equals("")) {
-							solutionWordTextAreaAdmin
-							.append(Config.gameBigWords.get(i)
-									.getTelugu() + "\n");
-						}
-					}
 				}
+				generateChosenWords();
 				generateWordOptions();
 			}
 		});
@@ -558,34 +546,49 @@ public class GUI {
 		scrollPane_1 = new JScrollPane();
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane_1.setBounds(427, 122, 282, 375);
+		scrollPane_1.setBounds(470, 122, 282, 375);
 		panelAdmin.add(scrollPane_1);
 
 		adminWordsJList = new JList();
 		scrollPane_1.setViewportView(adminWordsJList);
 		
-		JButton swapButton = new JButton("Swap In");
+		JButton swapButton = new JButton("<<<  Swap In  <<<");
 		swapButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String entireString = adminWordsJList.getSelectedValue().toString();
-				System.out.println(entireString);
-				int cutPoint = entireString.indexOf(" [");
-				String word = "";
-				word = entireString.substring(0, cutPoint);
-				entireString = entireString.substring(cutPoint + 7, entireString.length());
-				cutPoint = entireString.indexOf(",");
-				int wordNumber = Integer.valueOf(entireString.substring(0, cutPoint));
-				System.out.println(entireString);
-				System.out.println(word);
-				System.out.println(wordNumber);
-				BigWord temp = new BigWord();
-				temp.setProcessedWord(word);
-				Config.gameBigWords.set(wordNumber, temp);
-				generateChosenWords();
+				try {
+					String entireString = adminWordsJList.getSelectedValue().toString();
+					System.out.println(entireString);
+					int cutPoint = entireString.indexOf(" [");
+					String word = "";
+					word = entireString.substring(0, cutPoint);
+					entireString = entireString.substring(cutPoint + 7, entireString.length());
+					cutPoint = entireString.indexOf(",");
+					int wordNumber = Integer.valueOf(entireString.substring(0, cutPoint));
+					System.out.println(entireString);
+					System.out.println(word);
+					System.out.println(wordNumber);
+					BigWord temp = new BigWord();
+					temp.setProcessedWord(word);
+					Config.gameBigWords.set(wordNumber, temp);
+					generateChosenWords();
+				} catch (NullPointerException exception) {
+					JOptionPane.showMessageDialog (
+							   null, "you must select a word on the right to swap in first" );
+				}
+
 			}
 		});
-		swapButton.setBounds(301, 237, 89, 23);
+		swapButton.setBounds(302, 236, 143, 23);
 		panelAdmin.add(swapButton);
+		
+		JButton btnNewButton_2 = new JButton("Clear All Fields");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearAllFields();
+			}
+		});
+		btnNewButton_2.setBounds(156, 597, 206, 35);
+		panelAdmin.add(btnNewButton_2);
 	}
 
 	public Vector<String> populateGameModes() {
@@ -711,5 +714,12 @@ public class GUI {
 					solutionWordTextAreaAdmin.append(Config.gameBigWords.get(i).getProcessedWord() + "\n");
 			}
 
+	}
+	
+	private void clearAllFields() {
+		solutionWordTextAreaAdmin.setText("");
+		solutionWordTextFieldAdmin.setText("");
+		adminWordsJList = new JList<String>();
+		scrollPane_1.setViewportView(adminWordsJList);
 	}
 }
