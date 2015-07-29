@@ -95,24 +95,7 @@ public class GUI {
 		panelWelcome.setBounds(10, 51, 424, 431);
 		panelWelcome.setLayout(null);
 
-		// number of Game Modes to generate
-		selectGameMode = new JComboBox(populateGameModes());
-		selectGameMode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Config.rebusX = (selectGameMode.getSelectedIndex() + 1);
-				System.out.println("Rebus: " + Config.rebusX + " selected");
-				updateWordBankSize();
-			}
-		});
-		selectGameMode.setBounds(257, 84, 100, 25);
-		panelWelcome.add(selectGameMode);
-
-		// label # puzzles to generate
-		JLabel lblGameModesToGen = new JLabel("Select Game Mode: ");
-		lblGameModesToGen.setForeground(Color.BLACK);
-		lblGameModesToGen.setBounds(113, 89, 151, 14);
-		panelWelcome.add(lblGameModesToGen);
-		tabStrip.addTab("Play", panelWelcome);
+		tabStrip.addTab("Welcome", panelWelcome);
 
 		// crossword logo image icon
 		// ImageIcon crosswordsIcon = new
@@ -131,39 +114,6 @@ public class GUI {
 		lblWelcomeHeader.setBounds(0, 25, 458, 29);
 		panelWelcome.add(lblWelcomeHeader);
 
-		JButton letsPlayButton1 = new JButton("Let's Play!");
-		letsPlayButton1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				rebus.pickSolutionWord();
-				rebus.findGameWords();
-				solutionWordTextAreaAdmin.setText("");
-				if (Config.LANGUAGE.equals("En")) {
-					solutionWordTextFieldAdmin.setText(Config.solutionBigWord
-							.getEnglish());
-					for (int i = 0; i < Config.gameBigWords.size(); i++) {
-						if (!Config.gameBigWords.get(i).getEnglish().equals("")) {
-							solutionWordTextAreaAdmin
-									.append(Config.gameBigWords.get(i)
-											.getEnglish() + "\n");
-						}
-					}
-				} else {
-					solutionWordTextFieldAdmin.setText(Config.solutionBigWord
-							.getTelugu());
-					for (int i = 0; i < Config.gameBigWords.size(); i++) {
-						if (!Config.gameBigWords.get(i).getEnglish().equals("")) {
-							solutionWordTextAreaAdmin
-									.append(Config.gameBigWords.get(i)
-											.getTelugu() + "\n");
-						}
-					}
-				}
-
-			}
-		});
-		letsPlayButton1.setBounds(105, 379, 131, 56);
-		panelWelcome.add(letsPlayButton1);
-
 		JButton generateHTML1 = new JButton("Generate HTML");
 		generateHTML1.addActionListener(new ActionListener() {
 			@Override
@@ -176,6 +126,18 @@ public class GUI {
 
 		generateHTML1.setBounds(279, 377, 131, 61);
 		panelWelcome.add(generateHTML1);
+		
+		JLabel lblInstructions = new JLabel("Instructions");
+		lblInstructions.setBounds(113, 150, 73, 25);
+		panelWelcome.add(lblInstructions);
+		
+		JLabel label = new JLabel("1.");
+		label.setBounds(113, 206, 46, 14);
+		panelWelcome.add(label);
+		
+		JLabel label_1 = new JLabel("2.");
+		label_1.setBounds(113, 254, 46, 14);
+		panelWelcome.add(label_1);
 
 		// init config panel
 		JPanel panelConfig = new JPanel();
@@ -187,7 +149,25 @@ public class GUI {
 		// ------------------------------------------------------
 		// ---------------------CONFIG PANEL---------------------
 		// ------------------------------------------------------
+		
+		// label # puzzles to generate
+		JLabel lblGameModesToGen = new JLabel("Select Game Mode: ");
+		lblGameModesToGen.setForeground(Color.BLACK);
+		lblGameModesToGen.setBounds(138, 71, 151, 14);
+		panelConfig.add(lblGameModesToGen);
 
+		// number of Game Modes to generate
+		selectGameMode = new JComboBox(populateGameModes());
+		selectGameMode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Config.rebusX = (selectGameMode.getSelectedIndex() + 1);
+				System.out.println("Rebus: " + Config.rebusX + " selected");
+				updateWordBankSize();
+			}
+		});
+		selectGameMode.setBounds(299, 66, 78, 19);
+		panelConfig.add(selectGameMode);
+		
 		// Word Length
 		selectWordLength = new JComboBox(populateWordMaxLengthBox());
 		selectWordLength.addActionListener(new ActionListener() {
@@ -199,13 +179,13 @@ public class GUI {
 				updateWordBankSize();
 			}
 		});
-		selectWordLength.setBounds(191, 218, 66, 20);
+		selectWordLength.setBounds(205, 249, 66, 20);
 		panelConfig.add(selectWordLength);
 
 		// label time elapsed
 		JLabel wordStrengthLabel = new JLabel("Word Strength");
 		wordStrengthLabel.setForeground(Color.DARK_GRAY);
-		wordStrengthLabel.setBounds(10, 252, 151, 14);
+		wordStrengthLabel.setBounds(10, 294, 151, 14);
 		panelConfig.add(wordStrengthLabel);
 
 		// label config tab header
@@ -220,16 +200,16 @@ public class GUI {
 
 		wordBankSizeTextField = new JTextField();
 		wordBankSizeTextField.setEditable(false);
-		wordBankSizeTextField.setBounds(191, 155, 66, 20);
+		wordBankSizeTextField.setBounds(205, 183, 66, 20);
 		panelConfig.add(wordBankSizeTextField);
 		wordBankSizeTextField.setColumns(10);
 
 		JLabel wordBankSizeLabel = new JLabel("Size of Current Word Pool");
-		wordBankSizeLabel.setBounds(10, 148, 151, 27);
+		wordBankSizeLabel.setBounds(10, 180, 151, 27);
 		panelConfig.add(wordBankSizeLabel);
 
 		JLabel topicLabel = new JLabel("Topic");
-		topicLabel.setBounds(10, 190, 101, 14);
+		topicLabel.setBounds(10, 218, 101, 14);
 		panelConfig.add(topicLabel);
 
 		JComboBox topicComboBox = new JComboBox(populateTopicBox());
@@ -241,11 +221,11 @@ public class GUI {
 				updateWordBankSize();
 			}
 		});
-		topicComboBox.setBounds(106, 187, 151, 20);
+		topicComboBox.setBounds(121, 218, 151, 20);
 		panelConfig.add(topicComboBox);
 
 		JLabel solutionLengthLabel = new JLabel("Solution Length");
-		solutionLengthLabel.setBounds(296, 221, 101, 14);
+		solutionLengthLabel.setBounds(296, 252, 101, 14);
 		panelConfig.add(solutionLengthLabel);
 
 		JComboBox solutionLengthComboBox = new JComboBox(
@@ -259,11 +239,11 @@ public class GUI {
 				updateSolutionBankSize();
 			}
 		});
-		solutionLengthComboBox.setBounds(488, 217, 75, 20);
+		solutionLengthComboBox.setBounds(488, 249, 75, 20);
 		panelConfig.add(solutionLengthComboBox);
 
 		JLabel languageLabel = new JLabel("Language");
-		languageLabel.setBounds(210, 82, 89, 14);
+		languageLabel.setBounds(138, 106, 89, 14);
 		panelConfig.add(languageLabel);
 
 		JComboBox languageComboBox = new JComboBox(populateLanguageBox());
@@ -277,22 +257,22 @@ public class GUI {
 				updateWordBankSize();
 			}
 		});
-		languageComboBox.setBounds(296, 79, 81, 20);
+		languageComboBox.setBounds(309, 103, 81, 20);
 		panelConfig.add(languageComboBox);
 
 		JLabel solutionBankSizeLabel = new JLabel(
 				"Size of Current Solution Pool");
-		solutionBankSizeLabel.setBounds(296, 154, 157, 14);
+		solutionBankSizeLabel.setBounds(296, 186, 157, 14);
 		panelConfig.add(solutionBankSizeLabel);
 
 		solutionBankSizeTextField = new JTextField();
 		solutionBankSizeTextField.setEditable(false);
-		solutionBankSizeTextField.setBounds(488, 151, 75, 20);
+		solutionBankSizeTextField.setBounds(488, 183, 75, 20);
 		panelConfig.add(solutionBankSizeTextField);
 		solutionBankSizeTextField.setColumns(10);
 
 		JLabel solutionTopicLabel = new JLabel("Topic");
-		solutionTopicLabel.setBounds(296, 190, 104, 14);
+		solutionTopicLabel.setBounds(293, 218, 104, 14);
 		panelConfig.add(solutionTopicLabel);
 
 		JComboBox solutionTopicComboBox = new JComboBox(
@@ -306,11 +286,11 @@ public class GUI {
 				updateSolutionBankSize();
 			}
 		});
-		solutionTopicComboBox.setBounds(428, 184, 135, 20);
+		solutionTopicComboBox.setBounds(428, 215, 135, 20);
 		panelConfig.add(solutionTopicComboBox);
 
 		JLabel lblSolutionWordStrength = new JLabel("Word Strength");
-		lblSolutionWordStrength.setBounds(296, 252, 135, 14);
+		lblSolutionWordStrength.setBounds(296, 294, 135, 14);
 		panelConfig.add(lblSolutionWordStrength);
 
 		JComboBox solutionBankWordStrengthMin = new JComboBox(
@@ -325,7 +305,7 @@ public class GUI {
 				updateSolutionBankSize();
 			}
 		});
-		solutionBankWordStrengthMin.setBounds(428, 249, 65, 20);
+		solutionBankWordStrengthMin.setBounds(428, 291, 65, 20);
 		panelConfig.add(solutionBankWordStrengthMin);
 
 		JComboBox solutionBankWordStrengthMax = new JComboBox(
@@ -341,7 +321,7 @@ public class GUI {
 				updateSolutionBankSize();
 			}
 		});
-		solutionBankWordStrengthMax.setBounds(503, 249, 60, 20);
+		solutionBankWordStrengthMax.setBounds(503, 291, 60, 20);
 		panelConfig.add(solutionBankWordStrengthMax);
 
 		JComboBox wordBankWordStrengthMin = new JComboBox(
@@ -355,7 +335,7 @@ public class GUI {
 				updateWordBankSize();
 			}
 		});
-		wordBankWordStrengthMin.setBounds(107, 249, 75, 20);
+		wordBankWordStrengthMin.setBounds(121, 291, 75, 20);
 		panelConfig.add(wordBankWordStrengthMin);
 
 		// max elapsed time
@@ -370,25 +350,25 @@ public class GUI {
 				updateWordBankSize();
 			}
 		});
-		wordBankWordStrengthMax.setBounds(191, 249, 66, 20);
+		wordBankWordStrengthMax.setBounds(205, 291, 66, 20);
 		panelConfig.add(wordBankWordStrengthMax);
 
 		// label rows / columns
 		JLabel lblRows = new JLabel("Max Word Length: ");
 		lblRows.setForeground(Color.DARK_GRAY);
-		lblRows.setBounds(10, 223, 151, 14);
+		lblRows.setBounds(10, 252, 151, 14);
 		panelConfig.add(lblRows);
 
 		JLabel lblWordBankOptions = new JLabel("Word Bank Options");
 		lblWordBankOptions.setFont(new Font("David", Font.BOLD | Font.ITALIC,
 				21));
-		lblWordBankOptions.setBounds(51, 115, 196, 29);
+		lblWordBankOptions.setBounds(50, 143, 196, 29);
 		panelConfig.add(lblWordBankOptions);
 
 		JLabel lblSolutionBankOptions = new JLabel("Solution Bank Options");
 		lblSolutionBankOptions.setFont(new Font("David", Font.BOLD
 				| Font.ITALIC, 21));
-		lblSolutionBankOptions.setBounds(330, 114, 233, 29);
+		lblSolutionBankOptions.setBounds(327, 146, 233, 29);
 		panelConfig.add(lblSolutionBankOptions);
 
 		updateWordBankSize();
@@ -402,7 +382,7 @@ public class GUI {
 		tabStrip.addTab("Admin", panelAdmin);
 
 		JLabel solutionWordLabelAdmin = new JLabel("Solution Word");
-		solutionWordLabelAdmin.setBounds(10, 99, 87, 26);
+		solutionWordLabelAdmin.setBounds(8, 70, 87, 26);
 		panelAdmin.add(solutionWordLabelAdmin);
 
 		JLabel lblAdminPanel = new JLabel("Admin Panel");
@@ -412,7 +392,7 @@ public class GUI {
 		panelAdmin.add(lblAdminPanel);
 
 		solutionWordTextFieldAdmin = new JTextField();
-		solutionWordTextFieldAdmin.setBounds(105, 102, 99, 20);
+		solutionWordTextFieldAdmin.setBounds(105, 73, 99, 20);
 		panelAdmin.add(solutionWordTextFieldAdmin);
 		solutionWordTextFieldAdmin.setColumns(10);
 
@@ -435,6 +415,12 @@ public class GUI {
 				}
 				Config.solutionWord = wp.getLogicalChars();
 				Config.solutionBigWord = bigWord;
+				if (Config.LANGUAGE.equals("En")) {
+					Config.solutionBigWord.setProcessedEnglish(wp.getLogicalChars());
+				}
+				else {
+					Config.solutionBigWord.setProcessedTelegu(wp.getLogicalChars());
+				}
 				rebus.findGameWords();
 				solutionWordTextAreaAdmin.setText("");
 				if (Config.LANGUAGE.equals("En")) {
@@ -444,7 +430,7 @@ public class GUI {
 						if (!Config.gameBigWords.get(i).getEnglish().equals("")) {
 							solutionWordTextAreaAdmin
 									.append(Config.gameBigWords.get(i)
-											.getEnglish() + "\n");
+											.getEnglish() + " [Word " + i + ", Rebus " + Config.rebusX + ", " + Config.solutionBigWord.getProcessedEnglish().get(i) + "]\n");
 						}
 					}
 				} else {
@@ -460,11 +446,11 @@ public class GUI {
 				}
 			}
 		});
-		solutionWordButtonAdmin.setBounds(398, 101, 184, 23);
+		solutionWordButtonAdmin.setBounds(400, 73, 184, 23);
 		panelAdmin.add(solutionWordButtonAdmin);
 
 		JLabel lblGameWords = new JLabel("Game Words");
-		lblGameWords.setBounds(54, 263, 99, 14);
+		lblGameWords.setBounds(10, 223, 99, 14);
 		panelAdmin.add(lblGameWords);
 
 		JTextArea textArea = new JTextArea();
@@ -476,7 +462,7 @@ public class GUI {
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(163, 165, 327, 272);
+		scrollPane.setBounds(92, 118, 174, 272);
 		panelAdmin.add(scrollPane);
 
 		solutionWordTextAreaAdmin = new JTextArea();
@@ -495,7 +481,7 @@ public class GUI {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(214, 101, 174, 23);
+		btnNewButton_1.setBounds(216, 73, 174, 23);
 		panelAdmin.add(btnNewButton_1);
 
 		JButton btnNewButton = new JButton("Finalize Changes to Puzzle");
@@ -543,8 +529,50 @@ public class GUI {
 				System.out.println("updated game solution and puzzle words");
 			}
 		});
-		btnNewButton.setBounds(225, 465, 216, 35);
+		btnNewButton.setBounds(205, 405, 216, 35);
 		panelAdmin.add(btnNewButton);
+		
+		JButton letsPlayButton1 = new JButton("I'm Feeling Lucky!");
+		letsPlayButton1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rebus.pickSolutionWord();
+				rebus.findGameWords();
+				solutionWordTextAreaAdmin.setText("");
+				if (Config.LANGUAGE.equals("En")) {
+					solutionWordTextFieldAdmin.setText(Config.solutionBigWord
+							.getEnglish());
+					for (int i = 0; i < Config.gameBigWords.size(); i++) {
+						if (!Config.gameBigWords.get(i).getEnglish().equals("")) {
+							solutionWordTextAreaAdmin
+									.append(Config.gameBigWords.get(i)
+											.getEnglish() + "\n");
+						}
+					}
+				} else {
+					solutionWordTextFieldAdmin.setText(Config.solutionBigWord
+							.getTelugu());
+					for (int i = 0; i < Config.gameBigWords.size(); i++) {
+						if (!Config.gameBigWords.get(i).getEnglish().equals("")) {
+							solutionWordTextAreaAdmin
+									.append(Config.gameBigWords.get(i)
+											.getTelugu() + "\n");
+						}
+					}
+				}
+
+			}
+		});
+		letsPlayButton1.setBounds(205, 444, 216, 56);
+		panelAdmin.add(letsPlayButton1);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane_1.setBounds(307, 118, 184, 272);
+		panelAdmin.add(scrollPane_1);
+		
+		JTextArea adminWordsTextArea = new JTextArea();
+		scrollPane_1.setViewportView(adminWordsTextArea);
 	}
 
 	public Vector<String> populateGameModes() {
