@@ -24,7 +24,7 @@ public class BigWord implements Comparable<BigWord>
     //for representing the unique identifier of Big Word
     private String ID;    
     
-  //for representing the topic
+    //for representing the topic
     private String topic;    
 
     //for representing the Telugu String

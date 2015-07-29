@@ -12,55 +12,60 @@ import javax.swing.JOptionPane;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 public class ImageSearch {
 
-	private String word;
-	public ImageSearch(String word){
-		this.word = word;
+	private static String noImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png";
+	public ImageSearch() {
 	}
-	//Later may add support for picking an image closest to the desired size
-	public String getImageUrl(){
-		 String imageUrl="";
-		  try{
-			  
-	            URL url = new URL("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="+URLEncoder.encode(word, "UTF-8"));
-	            URLConnection connection = url.openConnection();
-	            String line;
-	            StringBuilder builder = new StringBuilder();
-	            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-	            while((line = reader.readLine()) != null) {
-	                builder.append(line);
-	            }
 
-	            JSONObject json = new JSONObject(builder.toString());
-	      
-	              JSONArray js = json.getJSONObject("responseData").getJSONArray("results");
-	              for(int j=0;j<1;j++)
-	              {
+	// Later may add support for picking an image closest to the desired size
+	public static String getImageUrl(String word) {
+		String imageUrl = "";
+		try {
 
-	              JSONObject  json1 = js.getJSONObject(j);
-	              imageUrl=json1.getString("url");
-	              System.out.println(imageUrl);
-	           // String imageUrl = json.getJSONObject("responseData").getJSONArray("results").getJSONObject(i).getString("url");
+			URL url = new URL(
+					"https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="
+							+ URLEncoder.encode(word, "UTF-8"));
+			URLConnection connection = url.openConnection();
+			String line;
+			StringBuilder builder = new StringBuilder();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
+			while ((line = reader.readLine()) != null) {
+				builder.append(line);
+			}
 
-	               BufferedImage image = ImageIO.read(new URL(imageUrl));
- 
-	            // for downloading the image
-	            // connection.setRequestProperty("User-Agent","Mozilla/5.0 (X11; U; Linux x86_64; en-GB; rv:1.8.1.6) Gecko/20070723 Iceweasel/2.0.0.6 (Debian-2.0.0.6-0etch1)");
+			JSONObject json = new JSONObject(builder.toString());
 
-	               
-	               /*
-	            File  outputfile = new File("D:\\saved"+j+".jpg");
-	            ImageIO.write(image, "jpg", outputfile);
-	            System.out.println("downloded"+j);
-	            */
-	            }
-	              
-	            //JOptionPane.showMessageDialog(null, "", "", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
-	        } catch(Exception e){
-	            JOptionPane.showMessageDialog(null, e.getMessage(), "Failure", JOptionPane.ERROR_MESSAGE);
-	            e.printStackTrace();
-	        }
-		  return imageUrl;
+			JSONArray js = json.getJSONObject("responseData").getJSONArray(
+					"results");
+			for (int j = 0; j < js.length(); j++) {
+
+				try {
+					JSONObject json1 = js.getJSONObject(j);
+					imageUrl = json1.getString("url");
+					//will usually determine a good image url if this passes
+					ImageIO.read(new URL(imageUrl));
+					break;
+					
+				} catch (Exception e) {
+					if(j < js.length()){
+						continue;
+					} else {
+						imageUrl = noImageUrl;
+					}
+				}
+				// reached here without error have a good image
+				
+
+			}
+
+			// JOptionPane.showMessageDialog(null, "", "",
+			// JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
+		} catch (Exception e) {
+			
+		}
+		return imageUrl;
 	}
 }

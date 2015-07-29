@@ -70,10 +70,16 @@ public class Rebus {
 	public void findGameWords() {
 		Config.gameBigWords.clear();
 		BigWordCollection possibleWords = Config.gameCollectionWordBank;
-
-		BigWordCollection trimmedWords = possibleWords
+		BigWordCollection trimmedWords;
+		if(Config.rebusX != 6){
+		trimmedWords = possibleWords
 				.getBigWordCollectionByWordLength(Config.rebusX,
 						Config.MAX_WORD_LENGTH);
+		} else{
+			trimmedWords = possibleWords
+					.getBigWordCollectionByWordLength(1,
+							Config.MAX_WORD_LENGTH);
+		}
 		ArrayList<BigWord> bigWords = trimmedWords.getAllBigWords();
 		ArrayList<ArrayList<String>> readableWords = new ArrayList<ArrayList<String>>();
 		ArrayList<Integer> randomIndexes = new ArrayList<Integer>();
@@ -111,13 +117,8 @@ public class Rebus {
 				if (temp.get(index).equals(
 						Config.solutionWord.get(i))) {
 					word = new WordProcessor(temp);
-					// System.out.println(word.getWord());
-					ImageSearch test = new ImageSearch(word.getWord());
-					urls.add(test.getImageUrl());
-
 					bigWords.get(randomIndexes.get(j)).setProcessedWord(
 							word.getWord());
-
 					Config.gameBigWords.add(bigWords.get(randomIndexes
 							.get(j)));
 					break;

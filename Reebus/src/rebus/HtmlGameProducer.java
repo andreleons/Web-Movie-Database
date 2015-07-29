@@ -19,12 +19,16 @@ public class HtmlGameProducer {
 	}
 	
 	private static String generateGameSection(){
-		ArrayList<String> urls = Config.urls;
+		ArrayList<BigWord> words = Config.gameBigWords;
 		String gameRow = "<tr>";
-		for(int i =0; i < urls.size(); i++){
+		for(int i =0; i < words.size(); i++){
 			gameRow += "\n<td>";
-			
-				gameRow += "<img src= ' "+urls.get(i)+"' style='height:200px;width:200px;'/>";
+				if(!words.get(i).hasImage()){
+					gameRow += "<img src= ' "+ImageSearch.getImageUrl(words.get(i).getProcessedWord())+"' style='height:200px;width:200px;'/>";
+				}else{
+					System.out.println("Had Image");
+					gameRow += "<img src= ' "+words.get(i).getImage()+"' style='height:200px;width:200px;'/>";
+				}
 			
 			gameRow += "</td>\n";
 		}
