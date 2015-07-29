@@ -96,12 +96,15 @@ public class Rebus {
 			if (Config.LANGUAGE.equals("En")) {
 				word = new WordProcessor(bigWord.getEnglish());
 				readableWords.add(word.getLogicalChars());
+				bigWord.setProcessedEnglish(word.getLogicalChars());
 			} else {
 				word = new WordProcessor(bigWord.getTelugu());
 				readableWords.add(word.getLogicalChars());
+				bigWord.setProcessedTelegu(word.getLogicalChars());
 			}
 		}
-
+		Config.potentialGameWords = bigWords;
+		
 		ArrayList<String> urls = new ArrayList<String>();
 		for (int i = 0; i < Config.solutionWord.size(); i++) {
 			// create some randomness for different boards to be made from same

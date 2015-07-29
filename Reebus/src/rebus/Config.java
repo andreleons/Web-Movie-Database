@@ -45,6 +45,7 @@ public class Config  {
 		public static ArrayList<BigWord> gameBigWords = new ArrayList<BigWord>();
 		public static ArrayList<ArrayList<String>> GAME_WORDS = new ArrayList<ArrayList<String>>();
 		public static String optionsGameModes = "";
+		public static ArrayList<BigWord> potentialGameWords = new ArrayList<BigWord>();
 		
 		
 	// Use these directories if we are using $HOME
