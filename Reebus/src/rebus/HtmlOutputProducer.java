@@ -27,7 +27,7 @@ public class HtmlOutputProducer {
 	}
 	public static void openHtml() {
 		saveNewFile(buildOutputBoard());
-		System.out.println("Reached");
+	
 		File htmlFile = new File("rebus.html");
 
 		// open the default web browser for the HTML page

@@ -58,6 +58,7 @@ public class GUI {
 	private JTextArea solutionWordTextAreaAdmin;
 	private JList<String> adminWordsJList;
 	private JScrollPane scrollPane_1;
+	private SavedGameCollection games; 
 
 	/**
 	 * Create the application.
@@ -77,7 +78,9 @@ public class GUI {
 		frame.setBounds(100, 100, 793, 765);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
+		
+		games = new SavedGameCollection();
+		games.setGames(games.readGames());
 		// Font
 		font = null;
 		InputStream fontFile = getClass().getResourceAsStream(Config.FontFile);
@@ -648,6 +651,20 @@ public class GUI {
 		
 		JButton saveGameButton = new JButton("Save Game");
 		saveGameButton.setBounds(420, 368, 148, 70);
+		saveGameButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(Config.gameBigWords != null && Config.solutionWord != null){
+					SavedGame game = new SavedGame(Config.solutionWord,Config.gameBigWords);
+					games.addGames(game);
+					games.saveGames();
+					System.out.println("Saved Game Count: "+games.getSavedGameCount());
+				}
+				
+			}
+			
+		});
 		panelManage.add(saveGameButton);
 	}
 

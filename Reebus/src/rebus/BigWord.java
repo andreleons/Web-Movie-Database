@@ -1,5 +1,6 @@
 package rebus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  * 
  */
 
-public class BigWord implements Comparable<BigWord>
+public class BigWord implements Comparable<BigWord>, Serializable
 {    
 
     //for representing the unique identifier of Big Word

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
+
 /**
  * Class for game logic
+ * 
  * @author marsh_000
  *
  */
@@ -75,14 +77,12 @@ public class Rebus {
 		Config.gameBigWords.clear();
 		BigWordCollection possibleWords = Config.gameCollectionWordBank;
 		BigWordCollection trimmedWords;
-		if(Config.rebusX != 6){
-		trimmedWords = possibleWords
-				.getBigWordCollectionByWordLength(Config.rebusX,
-						Config.MAX_WORD_LENGTH);
-		} else{
-			trimmedWords = possibleWords
-					.getBigWordCollectionByWordLength(1,
-							Config.MAX_WORD_LENGTH);
+		if (Config.rebusX != 6) {
+			trimmedWords = possibleWords.getBigWordCollectionByWordLength(
+					Config.rebusX, Config.MAX_WORD_LENGTH);
+		} else {
+			trimmedWords = possibleWords.getBigWordCollectionByWordLength(1,
+					Config.MAX_WORD_LENGTH);
 		}
 		ArrayList<BigWord> bigWords = trimmedWords.getAllBigWords();
 		ArrayList<ArrayList<String>> readableWords = new ArrayList<ArrayList<String>>();
@@ -104,7 +104,7 @@ public class Rebus {
 			}
 		}
 		Config.potentialGameWords = bigWords;
-		
+
 		ArrayList<String> urls = new ArrayList<String>();
 		for (int i = 0; i < Config.solutionWord.size(); i++) {
 			// create some randomness for different boards to be made from same
@@ -114,7 +114,9 @@ public class Rebus {
 			ArrayList<String> temp = new ArrayList<String>();
 			boolean noWordFound = true;
 			String testForBadCharacters = Config.solutionWord.get(i);
-			if (testForBadCharacters.equals("") || testForBadCharacters.equals("-") || testForBadCharacters.equals(" ")) {
+			if (testForBadCharacters.equals("")
+					|| testForBadCharacters.equals("-")
+					|| testForBadCharacters.equals(" ")) {
 				noWordFound = false;
 			}
 			for (int j = 0; j < readableWords.size(); j++) {
@@ -122,17 +124,19 @@ public class Rebus {
 				int index = 0;
 				temp = readableWords.get(randomIndexes.get(j));
 				if (Config.rebusX == 6) {
-					index = new Random().nextInt(temp.size()-1);
+					if (temp.size() > 1) {
+						index = new Random().nextInt(temp.size() - 1);
+					}else{
+						index = 0;
+					}
 				} else {
-					index = Config.rebusX-1;
+					index = Config.rebusX - 1;
 				}
-				if (temp.get(index).equals(
-						Config.solutionWord.get(i))) {
+				if (temp.get(index).equals(Config.solutionWord.get(i))) {
 					word = new WordProcessor(temp);
 					bigWords.get(randomIndexes.get(j)).setProcessedWord(
 							word.getWord());
-					Config.gameBigWords.add(bigWords.get(randomIndexes
-							.get(j)));
+					Config.gameBigWords.add(bigWords.get(randomIndexes.get(j)));
 					noWordFound = false;
 					break;
 				}
@@ -151,8 +155,6 @@ public class Rebus {
 		Config.urls = urls;
 	}
 
-	
-	
 	public void pickSolutionWord() {
 		BigWordCollection possibleSolutions = Config.gameCollectionSolutionBank;
 		Random rand = new Random();
