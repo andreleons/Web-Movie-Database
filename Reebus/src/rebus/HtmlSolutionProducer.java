@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class HtmlSolutionProducer {
 
 	public static String buildBoard(){
-		String table = "<table>/n";
+		String table = "<table>\n";
 		table += generateGameSection();
 		table += "</table>";
 		return table;

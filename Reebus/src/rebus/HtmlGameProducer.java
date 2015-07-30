@@ -15,7 +15,7 @@ public class HtmlGameProducer {
 	 * @return
 	 */
 	public static String buildBoard(){
-		String table = "<table>/n";
+		String table = "<table>\n";
 		table += generateGameSection();
 		table += "</table>";
 		return table;

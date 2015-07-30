@@ -122,20 +122,58 @@ public class GUI {
 		lblWelcomeHeader.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWelcomeHeader
 		.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 29));
-		lblWelcomeHeader.setBounds(0, 25, 458, 29);
-		panelWelcome.add(lblWelcomeHeader);
+		lblWelcomeHeader.setBounds(143, 25, 458, 29);
 
 		JLabel lblInstructions = new JLabel("Instructions");
-		lblInstructions.setBounds(113, 150, 73, 25);
+		lblInstructions.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblInstructions.setBounds(113, 150, 523, 25);
 		panelWelcome.add(lblInstructions);
 
-		JLabel label = new JLabel("1.");
-		label.setBounds(113, 206, 46, 14);
+		JLabel label = new JLabel("1. To start creating a puzzle click the button below or click on the \"Config\" tab. ");
+		label.setFont(new Font("Tahoma", Font.BOLD, 13));
+		label.setBounds(113, 206, 606, 14);
 		panelWelcome.add(label);
+		
+		JLabel lblNewLabel = new JLabel("There you can set all the different options you want to use for generating your puzzle.");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel.setBounds(113, 225, 593, 14);
+		panelWelcome.add(lblNewLabel);
 
-		JLabel label_1 = new JLabel("2.");
-		label_1.setBounds(113, 254, 46, 14);
+		JLabel label_1 = new JLabel("2. After choosing the options for the words you'll be using, you can go to the admin tab");
+		label_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+		label_1.setBounds(113, 270, 606, 14);
 		panelWelcome.add(label_1);
+		
+		JLabel lblNewLabel_1 = new JLabel("to generate the word pool or choose each individual word you would like to use.");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel_1.setBounds(112, 289, 594, 14);
+		panelWelcome.add(lblNewLabel_1);
+		
+		JLabel lblOnceYou = new JLabel("3. Once you are satisfied with your puzzle you can go to the manage tab");
+		lblOnceYou.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblOnceYou.setBounds(113, 328, 626, 14);
+		panelWelcome.add(lblOnceYou);
+		
+		JLabel lblNewLabel_2 = new JLabel("and choose to either save the puzzle or generate an HTML file so the puzzle can be played.");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel_2.setBounds(113, 347, 593, 14);
+		panelWelcome.add(lblNewLabel_2);
+		
+		JButton btnNewButton_3 = new JButton("Let's Get Started!");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabStrip.setSelectedIndex(1);
+			}
+		});
+		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnNewButton_3.setBounds(297, 448, 163, 78);
+		panelWelcome.add(btnNewButton_3);
+		
+		JLabel lblRebus = new JLabel("Rebus!");
+		lblRebus.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRebus.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 32));
+		lblRebus.setBounds(113, 68, 493, 35);
+		panelWelcome.add(lblRebus);
 
 		// init config panel
 		JPanel panelConfig = new JPanel();
@@ -149,9 +187,10 @@ public class GUI {
 		// ------------------------------------------------------
 
 		// label # puzzles to generate
-		JLabel lblGameModesToGen = new JLabel("Select Game Mode: ");
+		JLabel lblGameModesToGen = new JLabel("Select Game Mode");
+		lblGameModesToGen.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblGameModesToGen.setForeground(Color.BLACK);
-		lblGameModesToGen.setBounds(138, 71, 151, 14);
+		lblGameModesToGen.setBounds(242, 120, 151, 14);
 		panelConfig.add(lblGameModesToGen);
 
 		// number of Game Modes to generate
@@ -163,7 +202,7 @@ public class GUI {
 				updateWordBankSize();
 			}
 		});
-		selectGameMode.setBounds(299, 66, 78, 19);
+		selectGameMode.setBounds(435, 118, 81, 19);
 		panelConfig.add(selectGameMode);
 
 		// Word Length
@@ -177,37 +216,42 @@ public class GUI {
 				updateWordBankSize();
 			}
 		});
-		selectWordLength.setBounds(205, 249, 66, 20);
+		selectWordLength.setBounds(283, 448, 66, 20);
 		panelConfig.add(selectWordLength);
 
 		// label time elapsed
 		JLabel wordStrengthLabel = new JLabel("Word Strength");
-		wordStrengthLabel.setForeground(Color.DARK_GRAY);
-		wordStrengthLabel.setBounds(10, 294, 151, 14);
+		wordStrengthLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		wordStrengthLabel.setForeground(Color.BLACK);
+		wordStrengthLabel.setBounds(71, 511, 151, 14);
 		panelConfig.add(wordStrengthLabel);
 
 		// label config tab header
 		JLabel lblConfigHeader = new JLabel("Setup Configuration");
 		lblConfigHeader.setHorizontalAlignment(SwingConstants.CENTER);
 		lblConfigHeader
-		.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 29));
-		lblConfigHeader.setBounds(0, 25, 493, 35);
+		.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 32));
+		lblConfigHeader.setBounds(135, 40, 493, 35);
 		panelConfig.add(lblConfigHeader);
 		panelConfig.setVisible(true);
 		panelConfig.setLayout(null);
 
 		wordBankSizeTextField = new JTextField();
 		wordBankSizeTextField.setEditable(false);
-		wordBankSizeTextField.setBounds(205, 183, 66, 20);
+		wordBankSizeTextField.setBounds(283, 328, 66, 20);
 		panelConfig.add(wordBankSizeTextField);
 		wordBankSizeTextField.setColumns(10);
 
 		JLabel wordBankSizeLabel = new JLabel("Size of Current Word Pool");
-		wordBankSizeLabel.setBounds(10, 180, 151, 27);
+		wordBankSizeLabel.setForeground(Color.BLACK);
+		wordBankSizeLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		wordBankSizeLabel.setBounds(71, 323, 175, 27);
 		panelConfig.add(wordBankSizeLabel);
 
 		JLabel topicLabel = new JLabel("Topic");
-		topicLabel.setBounds(10, 218, 101, 14);
+		topicLabel.setForeground(Color.BLACK);
+		topicLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		topicLabel.setBounds(71, 389, 101, 14);
 		panelConfig.add(topicLabel);
 
 		JComboBox topicComboBox = new JComboBox(populateTopicBox());
@@ -219,11 +263,13 @@ public class GUI {
 				updateWordBankSize();
 			}
 		});
-		topicComboBox.setBounds(121, 218, 151, 20);
+		topicComboBox.setBounds(198, 388, 151, 20);
 		panelConfig.add(topicComboBox);
 
 		JLabel solutionLengthLabel = new JLabel("Solution Length");
-		solutionLengthLabel.setBounds(296, 252, 101, 14);
+		solutionLengthLabel.setForeground(Color.BLACK);
+		solutionLengthLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		solutionLengthLabel.setBounds(428, 448, 101, 14);
 		panelConfig.add(solutionLengthLabel);
 
 		JComboBox solutionLengthComboBox = new JComboBox(
@@ -237,11 +283,13 @@ public class GUI {
 				updateSolutionBankSize();
 			}
 		});
-		solutionLengthComboBox.setBounds(488, 249, 75, 20);
+		solutionLengthComboBox.setBounds(618, 445, 75, 20);
 		panelConfig.add(solutionLengthComboBox);
 
 		JLabel languageLabel = new JLabel("Language");
-		languageLabel.setBounds(138, 106, 89, 14);
+		languageLabel.setForeground(Color.BLACK);
+		languageLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		languageLabel.setBounds(242, 161, 89, 27);
 		panelConfig.add(languageLabel);
 
 		JComboBox languageComboBox = new JComboBox(populateLanguageBox());
@@ -255,22 +303,26 @@ public class GUI {
 				updateWordBankSize();
 			}
 		});
-		languageComboBox.setBounds(309, 103, 81, 20);
+		languageComboBox.setBounds(435, 166, 81, 20);
 		panelConfig.add(languageComboBox);
 
 		JLabel solutionBankSizeLabel = new JLabel(
 				"Size of Current Solution Pool");
-		solutionBankSizeLabel.setBounds(296, 186, 157, 14);
+		solutionBankSizeLabel.setForeground(Color.BLACK);
+		solutionBankSizeLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		solutionBankSizeLabel.setBounds(428, 331, 181, 14);
 		panelConfig.add(solutionBankSizeLabel);
 
 		solutionBankSizeTextField = new JTextField();
 		solutionBankSizeTextField.setEditable(false);
-		solutionBankSizeTextField.setBounds(488, 183, 75, 20);
+		solutionBankSizeTextField.setBounds(618, 328, 75, 20);
 		panelConfig.add(solutionBankSizeTextField);
 		solutionBankSizeTextField.setColumns(10);
 
 		JLabel solutionTopicLabel = new JLabel("Topic");
-		solutionTopicLabel.setBounds(293, 218, 104, 14);
+		solutionTopicLabel.setForeground(Color.BLACK);
+		solutionTopicLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		solutionTopicLabel.setBounds(428, 391, 104, 14);
 		panelConfig.add(solutionTopicLabel);
 
 		JComboBox solutionTopicComboBox = new JComboBox(
@@ -284,11 +336,13 @@ public class GUI {
 				updateSolutionBankSize();
 			}
 		});
-		solutionTopicComboBox.setBounds(428, 215, 135, 20);
+		solutionTopicComboBox.setBounds(558, 388, 135, 20);
 		panelConfig.add(solutionTopicComboBox);
 
 		JLabel lblSolutionWordStrength = new JLabel("Word Strength");
-		lblSolutionWordStrength.setBounds(296, 294, 135, 14);
+		lblSolutionWordStrength.setForeground(Color.BLACK);
+		lblSolutionWordStrength.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblSolutionWordStrength.setBounds(428, 511, 135, 14);
 		panelConfig.add(lblSolutionWordStrength);
 
 		JComboBox solutionBankWordStrengthMin = new JComboBox(
@@ -303,7 +357,7 @@ public class GUI {
 				updateSolutionBankSize();
 			}
 		});
-		solutionBankWordStrengthMin.setBounds(428, 291, 65, 20);
+		solutionBankWordStrengthMin.setBounds(558, 510, 65, 20);
 		panelConfig.add(solutionBankWordStrengthMin);
 
 		JComboBox solutionBankWordStrengthMax = new JComboBox(
@@ -319,7 +373,7 @@ public class GUI {
 				updateSolutionBankSize();
 			}
 		});
-		solutionBankWordStrengthMax.setBounds(503, 291, 60, 20);
+		solutionBankWordStrengthMax.setBounds(633, 510, 60, 20);
 		panelConfig.add(solutionBankWordStrengthMax);
 
 		JComboBox wordBankWordStrengthMin = new JComboBox(
@@ -333,7 +387,7 @@ public class GUI {
 				updateWordBankSize();
 			}
 		});
-		wordBankWordStrengthMin.setBounds(121, 291, 75, 20);
+		wordBankWordStrengthMin.setBounds(198, 510, 75, 20);
 		panelConfig.add(wordBankWordStrengthMin);
 
 		// max elapsed time
@@ -348,25 +402,24 @@ public class GUI {
 				updateWordBankSize();
 			}
 		});
-		wordBankWordStrengthMax.setBounds(205, 291, 66, 20);
+		wordBankWordStrengthMax.setBounds(283, 510, 66, 20);
 		panelConfig.add(wordBankWordStrengthMax);
 
 		// label rows / columns
 		JLabel lblRows = new JLabel("Max Word Length: ");
-		lblRows.setForeground(Color.DARK_GRAY);
-		lblRows.setBounds(10, 252, 151, 14);
+		lblRows.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblRows.setForeground(Color.BLACK);
+		lblRows.setBounds(71, 449, 151, 14);
 		panelConfig.add(lblRows);
 
 		JLabel lblWordBankOptions = new JLabel("Word Bank Options");
-		lblWordBankOptions.setFont(new Font("David", Font.BOLD | Font.ITALIC,
-				21));
-		lblWordBankOptions.setBounds(50, 143, 196, 29);
+		lblWordBankOptions.setFont(new Font("David", Font.BOLD | Font.ITALIC, 26));
+		lblWordBankOptions.setBounds(93, 244, 256, 29);
 		panelConfig.add(lblWordBankOptions);
 
 		JLabel lblSolutionBankOptions = new JLabel("Solution Bank Options");
-		lblSolutionBankOptions.setFont(new Font("David", Font.BOLD
-				| Font.ITALIC, 21));
-		lblSolutionBankOptions.setBounds(327, 146, 233, 29);
+		lblSolutionBankOptions.setFont(new Font("David", Font.BOLD | Font.ITALIC, 26));
+		lblSolutionBankOptions.setBounds(448, 244, 264, 29);
 		panelConfig.add(lblSolutionBankOptions);
 
 		updateWordBankSize();
@@ -380,17 +433,17 @@ public class GUI {
 		tabStrip.addTab("Admin", panelAdmin);
 
 		JLabel solutionWordLabelAdmin = new JLabel("Solution Word");
-		solutionWordLabelAdmin.setBounds(8, 70, 87, 26);
+		solutionWordLabelAdmin.setBounds(10, 110, 87, 26);
 		panelAdmin.add(solutionWordLabelAdmin);
 
 		JLabel lblAdminPanel = new JLabel("Admin Panel");
 		lblAdminPanel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAdminPanel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 29));
-		lblAdminPanel.setBounds(54, 27, 493, 35);
+		lblAdminPanel.setBounds(135, 27, 493, 35);
 		panelAdmin.add(lblAdminPanel);
 
 		solutionWordTextFieldAdmin = new JTextField();
-		solutionWordTextFieldAdmin.setBounds(105, 73, 99, 20);
+		solutionWordTextFieldAdmin.setBounds(99, 113, 135, 20);
 		panelAdmin.add(solutionWordTextFieldAdmin);
 		solutionWordTextFieldAdmin.setColumns(10);
 
@@ -424,11 +477,11 @@ public class GUI {
 				generateWordOptions();
 			}
 		});
-		solutionWordButtonAdmin.setBounds(400, 73, 184, 23);
+		solutionWordButtonAdmin.setBounds(529, 112, 184, 23);
 		panelAdmin.add(solutionWordButtonAdmin);
 
 		JLabel lblGameWords = new JLabel("Game Words");
-		lblGameWords.setBounds(10, 223, 99, 14);
+		lblGameWords.setBounds(10, 338, 99, 14);
 		panelAdmin.add(lblGameWords);
 
 		JTextArea textArea = new JTextArea();
@@ -440,7 +493,7 @@ public class GUI {
 		.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane
 		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(92, 118, 184, 375);
+		scrollPane.setBounds(84, 170, 206, 375);
 		panelAdmin.add(scrollPane);
 
 		solutionWordTextAreaAdmin = new JTextArea();
@@ -458,10 +511,9 @@ public class GUI {
 					solutionWordTextFieldAdmin.setText(Config.solutionBigWord
 							.getTelugu());
 				}
-				solutionWordButtonAdmin.doClick();
 			}
 		});
-		btnNewButton_1.setBounds(216, 73, 174, 23);
+		btnNewButton_1.setBounds(300, 112, 174, 23);
 		panelAdmin.add(btnNewButton_1);
 
 		JButton btnNewButton = new JButton("Commit Manually Typed Entries");
@@ -554,7 +606,7 @@ public class GUI {
 				}
 			}
 		});
-		btnNewButton.setBounds(146, 546, 216, 35);
+		btnNewButton.setBounds(45, 581, 216, 56);
 		panelAdmin.add(btnNewButton);
 
 		JButton letsPlayButton1 = new JButton("I'm Feeling Lucky!");
@@ -574,13 +626,13 @@ public class GUI {
 				generateWordOptions();
 			}
 		});
-		letsPlayButton1.setBounds(372, 535, 216, 56);
+		letsPlayButton1.setBounds(271, 581, 216, 56);
 		panelAdmin.add(letsPlayButton1);
 
 		scrollPane_1 = new JScrollPane();
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane_1.setBounds(470, 122, 282, 375);
+		scrollPane_1.setBounds(452, 170, 282, 375);
 		panelAdmin.add(scrollPane_1);
 
 		adminWordsJList = new JList();
@@ -612,7 +664,7 @@ public class GUI {
 
 			}
 		});
-		swapButton.setBounds(302, 236, 143, 23);
+		swapButton.setBounds(300, 334, 142, 23);
 		panelAdmin.add(swapButton);
 		
 		JButton btnNewButton_2 = new JButton("Clear All Fields");
@@ -621,7 +673,7 @@ public class GUI {
 				clearAllFields();
 			}
 		});
-		btnNewButton_2.setBounds(156, 597, 206, 35);
+		btnNewButton_2.setBounds(497, 581, 216, 56);
 		panelAdmin.add(btnNewButton_2);
 		
 		// init Manage Panel
@@ -633,11 +685,12 @@ public class GUI {
 
 		JLabel lblManagePanel = new JLabel("Manage Games");
 		lblManagePanel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblManagePanel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 29));
-		lblManagePanel.setBounds(54, 27, 493, 35);
+		lblManagePanel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 40));
+		lblManagePanel.setBounds(133, 64, 493, 49);
 		panelManage.add(lblManagePanel);
 		
 		JButton generateHTML1 = new JButton("Generate HTML");
+		generateHTML1.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		generateHTML1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -646,11 +699,12 @@ public class GUI {
 
 		});
 
-		generateHTML1.setBounds(279, 377, 131, 61);
+		generateHTML1.setBounds(241, 362, 280, 100);
 		panelManage.add(generateHTML1);
 		
 		JButton saveGameButton = new JButton("Save Game");
-		saveGameButton.setBounds(420, 368, 148, 70);
+		saveGameButton.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		saveGameButton.setBounds(241, 202, 280, 100);
 		saveGameButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -675,7 +729,7 @@ public class GUI {
 		retVal.add("Rebus 3");
 		retVal.add("Rebus 4");
 		retVal.add("Rebus 5");
-		retVal.add("Rebus N");
+		//retVal.add("Rebus N");
 		return retVal;
 	}
 
@@ -758,7 +812,7 @@ public class GUI {
 	public Vector<String> populateLanguageBox() {
 		Vector<String> retVal = new Vector<String>();
 		retVal.add("English");
-		retVal.add("Telugu");
+		//retVal.add("Telugu");
 		return retVal;
 	}
 
