@@ -899,7 +899,7 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (Config.gameBigWords != null && Config.solutionWord != null) {
-					SavedGame game = new SavedGame(Config.solutionWord,
+					SavedGame game = new SavedGame(new ArrayList<String>(Config.solutionWord),
 							new ArrayList<BigWord>(Config.gameBigWords));
 					games.addGames(game);
 					games.saveGames();
