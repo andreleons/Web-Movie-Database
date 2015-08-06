@@ -52,8 +52,13 @@ public class ImageSearch {
 					JSONObject json1 = js.getJSONObject(j);
 					imageUrl = json1.getString("url");
 					//will usually determine a good image url if this passes
-					ImageIO.read(new URL(imageUrl));
-					break;
+					Image image = ImageIO.read(new URL(imageUrl));
+					if(image != null){
+					    return imageUrl;
+					}else if(j == js.length()-1){
+					   return noImageUrl;
+					}
+			
 					
 				} catch (Exception e) {
 					
@@ -78,13 +83,17 @@ public class ImageSearch {
 	
 	public static String imageVerifcation(String word){
 		try{
-			ImageIO.read(new URL(word));
+			Image image = ImageIO.read(new URL(word));
+			if(image != null){
+			    return word;
+			}else{
+			   return noImageUrl;
+			}
 		}catch(Exception e){
 			return noImageUrl;
 		}
-		
-		return word;
 	}
+	
 	
 
 }

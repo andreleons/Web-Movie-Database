@@ -860,7 +860,7 @@ public class GUI {
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollGameList.setBounds(358, 155, 204, 242);
 		panelManage.add(scrollGameList);
-		scrollGameList.setViewportView(manageGameList);
+		scrollGameList.setViewportView(manageGameList); 
 
 		JButton btnGenerateHtml = new JButton("Generate HTML");
 		btnGenerateHtml.addActionListener(new ActionListener() {
