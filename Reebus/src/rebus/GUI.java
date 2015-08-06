@@ -45,6 +45,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class GUI {
 
@@ -750,6 +753,37 @@ public class GUI {
 		adminWordsJList = new JList();
 		adminWordsJList.setCellRenderer(new TeluguFontListCellRenderer());
 		scrollPane_1.setViewportView(adminWordsJList);
+	    MouseListener mouseListener = new MouseAdapter() {
+	        public void mouseClicked(MouseEvent mouseEvent) {
+	          JList theList = (JList) mouseEvent.getSource();
+	          if (mouseEvent.getClickCount() == 2) {
+	            int index = theList.locationToIndex(mouseEvent.getPoint());
+	            System.out.println("double clicked index is" + index);
+	            if (index >= 0) {
+	              String entireString = (String) theList.getModel().getElementAt(index);
+	              System.out.println("Double-clicked on: " + entireString);
+	              int cutPoint = entireString.indexOf(" [");
+					String word = "";
+					word = entireString.substring(0, cutPoint);
+					entireString = entireString.substring(cutPoint + 7,
+							entireString.length());
+					cutPoint = entireString.indexOf(",");
+					int wordNumber = Integer.valueOf(entireString.substring(0,
+							cutPoint));
+					System.out.println(entireString);
+					System.out.println(word);
+					System.out.println(wordNumber);
+					BigWord temp = new BigWord();
+					temp.setProcessedWord(word);
+					Config.gameBigWords.set(wordNumber, temp);
+					generateChosenWords();
+					setButtonStatuses();
+	            }
+	          }
+	        }
+	      };
+	      adminWordsJList.addMouseListener(mouseListener);
+
 
 		swapButton = new JButton("<<<  Swap In  <<<");
 		swapButton.addActionListener(new ActionListener() {
@@ -827,6 +861,7 @@ public class GUI {
 		panelManage.add(lblSolutionWord);
 
 		manageSolutionWord = new JTextField();
+		manageSolutionWord.setFont(font);
 		manageSolutionWord.setBounds(153, 134, 116, 22);
 		panelManage.add(manageSolutionWord);
 		manageSolutionWord.setColumns(20);
@@ -837,6 +872,7 @@ public class GUI {
 		panelManage.add(lblGameWords_1);
 		
 		manageGameWords = new JTextArea();
+		manageGameWords.setFont(font);
 		
 		JScrollPane scrollGame = new JScrollPane();
 		scrollGame
@@ -1075,6 +1111,36 @@ public class GUI {
 		adminWordsJList = new JList<String>(options);
 		adminWordsJList.setCellRenderer(new TeluguFontListCellRenderer());
 		scrollPane_1.setViewportView(adminWordsJList);
+	    MouseListener mouseListener = new MouseAdapter() {
+	        public void mouseClicked(MouseEvent mouseEvent) {
+	          JList theList = (JList) mouseEvent.getSource();
+	          if (mouseEvent.getClickCount() == 2) {
+	            int index = theList.locationToIndex(mouseEvent.getPoint());
+	            System.out.println("double clicked index is" + index);
+	            if (index >= 0) {
+	              String entireString = (String) theList.getModel().getElementAt(index);
+	              System.out.println("Double-clicked on: " + entireString);
+	              int cutPoint = entireString.indexOf(" [");
+					String word = "";
+					word = entireString.substring(0, cutPoint);
+					entireString = entireString.substring(cutPoint + 7,
+							entireString.length());
+					cutPoint = entireString.indexOf(",");
+					int wordNumber = Integer.valueOf(entireString.substring(0,
+							cutPoint));
+					System.out.println(entireString);
+					System.out.println(word);
+					System.out.println(wordNumber);
+					BigWord temp = new BigWord();
+					temp.setProcessedWord(word);
+					Config.gameBigWords.set(wordNumber, temp);
+					generateChosenWords();
+					setButtonStatuses();
+	            }
+	          }
+	        }
+	      };
+	      adminWordsJList.addMouseListener(mouseListener);
 	}
 
 	private void generateChosenWords() {
