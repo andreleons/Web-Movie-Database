@@ -900,7 +900,7 @@ public class GUI {
 			public void actionPerformed(ActionEvent arg0) {
 				if (Config.gameBigWords != null && Config.solutionWord != null) {
 					SavedGame game = new SavedGame(Config.solutionWord,
-							Config.gameBigWords);
+							new ArrayList<BigWord>(Config.gameBigWords));
 					games.addGames(game);
 					games.saveGames();
 					growlerAdmin.showMessage("Saved Game");
