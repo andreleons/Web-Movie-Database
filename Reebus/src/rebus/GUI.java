@@ -36,6 +36,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 import java.awt.event.KeyAdapter;
@@ -45,7 +48,7 @@ import java.awt.event.FocusEvent;
 
 public class GUI {
 
-	//private Font font;
+	// private Font font;
 	Font font = new Font("gautami", Font.PLAIN, 14);
 	@SuppressWarnings("rawtypes")
 	private JComboBox selectGameMode;
@@ -59,13 +62,17 @@ public class GUI {
 	JFrame frame;
 	@SuppressWarnings("rawtypes")
 	private JTabbedPane tabStrip;
+	private SavedGame selectedSavedGame;
+	private JList manageGameList;
+
+	private JTextArea manageGameWords;
 	private JTextField wordBankSizeTextField;
 	private JTextField solutionBankSizeTextField;
 	private JTextField solutionWordTextFieldAdmin;
 	private JTextArea solutionWordTextAreaAdmin;
 	private JList<String> adminWordsJList;
 	private JScrollPane scrollPane_1;
-	private SavedGameCollection games; 
+	private SavedGameCollection games;
 	private JPanel growlerPanelAdmin;
 	private JPanel growlerPanelConfig;
 	private JButton btnNewButton;
@@ -75,10 +82,10 @@ public class GUI {
 	private JButton swapButton;
 	private JButton solutionWordButtonAdmin;
 
-	//Growler Message Displays
+	// Growler Message Displays
 	Growler growlerAdmin;
 	Growler growlerConfig;
-
+	private JTextField manageSolutionWord;
 
 	/**
 	 * Create the application.
@@ -89,7 +96,7 @@ public class GUI {
 
 	/**
 	 * Initialize the contents of the frame.
-	 */	
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initialize() {
 		// main window
@@ -101,19 +108,46 @@ public class GUI {
 
 		games = new SavedGameCollection();
 		games.setGames(games.readGames());
-		// Font
-		//		font = null;
-		//		InputStream fontFile = getClass().getResourceAsStream(Config.FontFile);
-		//		try {
-		//			font = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(
-		//					Font.PLAIN, 24);
-		//		} catch (FontFormatException | IOException e1) {
-		//			e1.printStackTrace();
-		//		}
-		//		GraphicsEnvironment ge = GraphicsEnvironment
-		//				.getLocalGraphicsEnvironment();
-		//		ge.registerFont(font);
 
+		DefaultListModel model = new DefaultListModel();
+		for (SavedGame game : games.getGames()) {
+			model.addElement(game);
+		}
+		manageGameList = new JList();
+		manageGameList.setModel(model);
+		manageGameList.setCellRenderer(new SavedGameListCellRenderer());
+		manageGameList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+
+				SavedGame game = (SavedGame) manageGameList.getSelectedValue();
+				if (game != null) {
+					manageSolutionWord.setText(game.getSolutionWord());
+					manageGameWords.setText("");
+					String gameWords = "";
+
+					for (BigWord word : game.getGameWords()) {
+						gameWords += word.getProcessedWord() + "\n";
+					}
+					manageGameWords.setText(gameWords);
+					selectedSavedGame = game;
+				}
+			}
+		});
+
+		// Font
+		// font = null;
+		// InputStream fontFile =
+		// getClass().getResourceAsStream(Config.FontFile);
+		// try {
+		// font = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(
+		// Font.PLAIN, 24);
+		// } catch (FontFormatException | IOException e1) {
+		// e1.printStackTrace();
+		// }
+		// GraphicsEnvironment ge = GraphicsEnvironment
+		// .getLocalGraphicsEnvironment();
+		// ge.registerFont(font);
 		// tab strip
 		tabStrip = new JTabbedPane(JTabbedPane.TOP);
 		tabStrip.setBorder(null);
@@ -141,7 +175,7 @@ public class GUI {
 		JLabel lblWelcomeHeader = new JLabel("Rebus!");
 		lblWelcomeHeader.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWelcomeHeader
-		.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 29));
+				.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 29));
 		lblWelcomeHeader.setBounds(143, 25, 458, 29);
 
 		JLabel lblInstructions = new JLabel("Instructions");
@@ -149,32 +183,38 @@ public class GUI {
 		lblInstructions.setBounds(113, 150, 523, 25);
 		panelWelcome.add(lblInstructions);
 
-		JLabel label = new JLabel("1. To start creating a puzzle click the button below or click on the \"Config\" tab. ");
+		JLabel label = new JLabel(
+				"1. To start creating a puzzle click the button below or click on the \"Config\" tab. ");
 		label.setFont(new Font("Tahoma", Font.BOLD, 13));
 		label.setBounds(113, 206, 606, 14);
 		panelWelcome.add(label);
 
-		JLabel lblNewLabel = new JLabel("There you can set all the different options you want to use for generating your puzzle.");
+		JLabel lblNewLabel = new JLabel(
+				"There you can set all the different options you want to use for generating your puzzle.");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel.setBounds(113, 225, 593, 14);
 		panelWelcome.add(lblNewLabel);
 
-		JLabel label_1 = new JLabel("2. After choosing the options for the words you'll be using, you can go to the admin tab");
+		JLabel label_1 = new JLabel(
+				"2. After choosing the options for the words you'll be using, you can go to the admin tab");
 		label_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		label_1.setBounds(113, 270, 606, 14);
 		panelWelcome.add(label_1);
 
-		JLabel lblNewLabel_1 = new JLabel("to generate the word pool or choose each individual word you would like to use.");
+		JLabel lblNewLabel_1 = new JLabel(
+				"to generate the word pool or choose each individual word you would like to use.");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel_1.setBounds(112, 289, 594, 14);
 		panelWelcome.add(lblNewLabel_1);
 
-		JLabel lblOnceYou = new JLabel("3. Once you are satisfied with your puzzle you can go to the manage tab");
+		JLabel lblOnceYou = new JLabel(
+				"3. Once you are satisfied with your puzzle you can go to the manage tab");
 		lblOnceYou.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblOnceYou.setBounds(113, 328, 626, 14);
 		panelWelcome.add(lblOnceYou);
 
-		JLabel lblNewLabel_2 = new JLabel("and choose to either save the puzzle or generate an HTML file so the puzzle can be played.");
+		JLabel lblNewLabel_2 = new JLabel(
+				"and choose to either save the puzzle or generate an HTML file so the puzzle can be played.");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblNewLabel_2.setBounds(113, 347, 593, 14);
 		panelWelcome.add(lblNewLabel_2);
@@ -250,7 +290,7 @@ public class GUI {
 		JLabel lblConfigHeader = new JLabel("Setup Configuration");
 		lblConfigHeader.setHorizontalAlignment(SwingConstants.CENTER);
 		lblConfigHeader
-		.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 32));
+				.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 32));
 		lblConfigHeader.setBounds(135, 40, 493, 35);
 		panelConfig.add(lblConfigHeader);
 		panelConfig.setVisible(true);
@@ -319,7 +359,8 @@ public class GUI {
 				Config.LANGUAGE = language.substring(0, 2);
 				updateSolutionBankSize();
 				updateWordBankSize();
-				growlerConfig.showMessage("Set " + language + " as the language");
+				growlerConfig.showMessage("Set " + language
+						+ " as the language");
 			}
 		});
 		languageComboBox.setBounds(435, 166, 81, 20);
@@ -432,12 +473,14 @@ public class GUI {
 		panelConfig.add(lblRows);
 
 		JLabel lblWordBankOptions = new JLabel("Word Bank Options");
-		lblWordBankOptions.setFont(new Font("David", Font.BOLD | Font.ITALIC, 26));
+		lblWordBankOptions.setFont(new Font("David", Font.BOLD | Font.ITALIC,
+				26));
 		lblWordBankOptions.setBounds(93, 244, 256, 29);
 		panelConfig.add(lblWordBankOptions);
 
 		JLabel lblSolutionBankOptions = new JLabel("Solution Bank Options");
-		lblSolutionBankOptions.setFont(new Font("David", Font.BOLD | Font.ITALIC, 26));
+		lblSolutionBankOptions.setFont(new Font("David", Font.BOLD
+				| Font.ITALIC, 26));
 		lblSolutionBankOptions.setBounds(448, 244, 264, 29);
 		panelConfig.add(lblSolutionBankOptions);
 
@@ -467,6 +510,7 @@ public class GUI {
 			public void keyReleased(KeyEvent e) {
 				setButtonStatuses();
 			}
+
 			@Override
 			public void keyTyped(KeyEvent e) {
 				setButtonStatuses();
@@ -497,10 +541,11 @@ public class GUI {
 				Config.solutionWord = wp.getLogicalChars();
 				Config.solutionBigWord = bigWord;
 				if (Config.LANGUAGE.equals("En")) {
-					Config.solutionBigWord.setProcessedEnglish(wp.getLogicalChars());
-				}
-				else {
-					Config.solutionBigWord.setProcessedTelegu(wp.getLogicalChars());
+					Config.solutionBigWord.setProcessedEnglish(wp
+							.getLogicalChars());
+				} else {
+					Config.solutionBigWord.setProcessedTelegu(wp
+							.getLogicalChars());
 				}
 				rebus.findGameWords();
 				generateChosenWords();
@@ -521,23 +566,24 @@ public class GUI {
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane
-		.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane
-		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBounds(84, 170, 206, 375);
 		panelAdmin.add(scrollPane);
 
 		solutionWordTextAreaAdmin = new JTextArea();
 		solutionWordTextAreaAdmin.addKeyListener(new KeyAdapter() {
 			@Override
-			//Good when typing in characters (reacts to first char)
+			// Good when typing in characters (reacts to first char)
 			public void keyReleased(KeyEvent e) {
-					setButtonStatuses();
+				setButtonStatuses();
 			}
+
 			@Override
-			//Good when trying to delete
+			// Good when trying to delete
 			public void keyTyped(KeyEvent e) {
-					setButtonStatuses();
+				setButtonStatuses();
 			}
 		});
 		solutionWordTextAreaAdmin.setFont(font);
@@ -550,8 +596,7 @@ public class GUI {
 				if (Config.LANGUAGE.equals("En")) {
 					solutionWordTextFieldAdmin.setText(Config.solutionBigWord
 							.getEnglish());
-				} 
-				else {
+				} else {
 					solutionWordTextFieldAdmin.setText(Config.solutionBigWord
 							.getTelugu());
 				}
@@ -590,7 +635,8 @@ public class GUI {
 							.split("\\n")) {
 						BigWord temp = null;
 						for (int i = 0; i < Config.entireCollection.size(); i++) {
-							if (Config.entireCollection.getBigWord(i).getEnglish().equals(line)) {
+							if (Config.entireCollection.getBigWord(i)
+									.getEnglish().equals(line)) {
 								bigWord = Config.entireCollection.getBigWord(i);
 							}
 						}
@@ -603,27 +649,39 @@ public class GUI {
 						// System.out.println("Adding " + temp.getEnglish());
 						WordProcessor wordProccessor = new WordProcessor(line);
 						Config.GAME_WORDS.add(wordProccessor.getLogicalChars());
-						temp.setProcessedEnglish(wordProccessor.getLogicalChars());
+						temp.setProcessedEnglish(wordProccessor
+								.getLogicalChars());
 						if (temp.getProcessedEnglish().size() < Config.rebusX) {
 							badPuzzle = true;
-							JOptionPane.showMessageDialog (
-									null, "This puzzle is incorrect, game word " + temp.getProcessedWord() + " does not result in character " + Config.solutionWord.get(wordNumber));
-						}
-						else if (!Config.solutionWord.get(wordNumber).equals(temp.getProcessedEnglish().get(Config.rebusX - 1))) {
+							JOptionPane.showMessageDialog(
+									null,
+									"This puzzle is incorrect, game word "
+											+ temp.getProcessedWord()
+											+ " does not result in character "
+											+ Config.solutionWord
+													.get(wordNumber));
+						} else if (!Config.solutionWord.get(wordNumber).equals(
+								temp.getProcessedEnglish().get(
+										Config.rebusX - 1))) {
 							badPuzzle = true;
-							JOptionPane.showMessageDialog (
-									null, "This puzzle is incorrect, game word " + temp.getProcessedWord() + " does not result in character " + Config.solutionWord.get(wordNumber));
+							JOptionPane.showMessageDialog(
+									null,
+									"This puzzle is incorrect, game word "
+											+ temp.getProcessedWord()
+											+ " does not result in character "
+											+ Config.solutionWord
+													.get(wordNumber));
 						}
 						stringsRead++;
 						wordNumber++;
 					}
-				} 
-				else {
+				} else {
 					for (String line : solutionWordTextAreaAdmin.getText()
 							.split("\\n")) {
 						BigWord temp = null;
 						for (int i = 0; i < Config.entireCollection.size(); i++) {
-							if (Config.entireCollection.getBigWord(i).getEnglish().equals(line)) {
+							if (Config.entireCollection.getBigWord(i)
+									.getEnglish().equals(line)) {
 								bigWord = Config.entireCollection.getBigWord(i);
 							}
 						}
@@ -636,18 +694,21 @@ public class GUI {
 						// System.out.println("Adding " + temp.getTelugu());
 						WordProcessor wordProccessor = new WordProcessor(line);
 						Config.GAME_WORDS.add(wordProccessor.getLogicalChars());
-						temp.setProcessedTelegu(wordProccessor.getLogicalChars());
+						temp.setProcessedTelegu(wordProccessor
+								.getLogicalChars());
 						stringsRead++;
 						wordNumber++;
 					}
 				}
 				if (stringsRead > Config.solutionWord.size()) {
 					badPuzzle = true;
-					JOptionPane.showMessageDialog (
-							null, "This puzzle is incorrect, game words longer than solution length" );
+					JOptionPane
+							.showMessageDialog(null,
+									"This puzzle is incorrect, game words longer than solution length");
 				}
 				if (!badPuzzle) {
-					growlerAdmin.showMessage("updated game solution and puzzle words");
+					growlerAdmin
+							.showMessage("updated game solution and puzzle words");
 				}
 				setButtonStatuses();
 			}
@@ -670,7 +731,8 @@ public class GUI {
 				}
 				generateChosenWords();
 				generateWordOptions();
-				growlerAdmin.showMessage("Generated a brand new complete puzzle");
+				growlerAdmin
+						.showMessage("Generated a brand new complete puzzle");
 				setButtonStatuses();
 			}
 		});
@@ -678,8 +740,10 @@ public class GUI {
 		panelAdmin.add(letsPlayButton1);
 
 		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane_1
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane_1
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setBounds(452, 170, 282, 375);
 		panelAdmin.add(scrollPane_1);
 
@@ -687,19 +751,21 @@ public class GUI {
 		adminWordsJList.setCellRenderer(new TeluguFontListCellRenderer());
 		scrollPane_1.setViewportView(adminWordsJList);
 
-
 		swapButton = new JButton("<<<  Swap In  <<<");
 		swapButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String entireString = adminWordsJList.getSelectedValue().toString();
+					String entireString = adminWordsJList.getSelectedValue()
+							.toString();
 					System.out.println(entireString);
 					int cutPoint = entireString.indexOf(" [");
 					String word = "";
 					word = entireString.substring(0, cutPoint);
-					entireString = entireString.substring(cutPoint + 7, entireString.length());
+					entireString = entireString.substring(cutPoint + 7,
+							entireString.length());
 					cutPoint = entireString.indexOf(",");
-					int wordNumber = Integer.valueOf(entireString.substring(0, cutPoint));
+					int wordNumber = Integer.valueOf(entireString.substring(0,
+							cutPoint));
 					System.out.println(entireString);
 					System.out.println(word);
 					System.out.println(wordNumber);
@@ -708,8 +774,9 @@ public class GUI {
 					Config.gameBigWords.set(wordNumber, temp);
 					generateChosenWords();
 				} catch (NullPointerException exception) {
-					JOptionPane.showMessageDialog (
-							null, "you must select a word on the right to swap in first" );
+					JOptionPane
+							.showMessageDialog(null,
+									"you must select a word on the right to swap in first");
 				}
 				setButtonStatuses();
 
@@ -732,13 +799,15 @@ public class GUI {
 		growlerPanelAdmin.setBounds(45, 715, 668, 28);
 		growlerPanelAdmin.setVisible(false);
 		panelAdmin.add(growlerPanelAdmin);
-		growlerAdmin = new Growler(Color.DARK_GRAY, Color.LIGHT_GRAY, growlerPanelAdmin);
+		growlerAdmin = new Growler(Color.DARK_GRAY, Color.LIGHT_GRAY,
+				growlerPanelAdmin);
 
 		growlerPanelConfig = new JPanel();
 		growlerPanelConfig.setBounds(55, 648, 658, 28);
 		growlerPanelConfig.setVisible(false);
 		panelConfig.add(growlerPanelConfig);
-		growlerConfig = new Growler(Color.DARK_GRAY, Color.LIGHT_GRAY, growlerPanelConfig);
+		growlerConfig = new Growler(Color.DARK_GRAY, Color.LIGHT_GRAY,
+				growlerPanelConfig);
 
 		// init Manage Panel
 		JPanel panelManage = new JPanel();
@@ -753,9 +822,63 @@ public class GUI {
 		lblManagePanel.setBounds(133, 64, 493, 49);
 		panelManage.add(lblManagePanel);
 
+		JLabel lblSolutionWord = new JLabel("Solution Word: ");
+		lblSolutionWord.setBounds(62, 137, 106, 16);
+		panelManage.add(lblSolutionWord);
+
+		manageSolutionWord = new JTextField();
+		manageSolutionWord.setBounds(153, 134, 116, 22);
+		panelManage.add(manageSolutionWord);
+		manageSolutionWord.setColumns(20);
+		manageSolutionWord.setEditable(false);
+
+		JLabel lblGameWords_1 = new JLabel("Game Words:");
+		lblGameWords_1.setBounds(62, 177, 89, 16);
+		panelManage.add(lblGameWords_1);
+
+		manageGameWords = new JTextArea();
+		manageGameWords.setBounds(153, 177, 116, 220);
+		panelManage.add(manageGameWords);
+		manageGameWords.setEditable(false);
+
+		JLabel lblGames = new JLabel("Games");
+		lblGames.setBounds(437, 126, 56, 16);
+		panelManage.add(lblGames);
+
+		manageGameList.setBounds(358, 155, 204, 242);
+		panelManage.add(manageGameList);
+
+		JButton btnGenerateHtml = new JButton("Generate HTML");
+		btnGenerateHtml.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (selectedSavedGame != null) {
+					HtmlOutputProducer.openHtml(selectedSavedGame);
+					growlerAdmin.showMessage("Generated HTML");
+				}
+			}
+		});
+		btnGenerateHtml.setBounds(133, 428, 136, 25);
+		panelManage.add(btnGenerateHtml);
+
+		JButton btnUpdateSavedGames = new JButton("Update Saved Games");
+		btnUpdateSavedGames.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultListModel model = new DefaultListModel();
+				for (SavedGame game : games.getGames()) {
+					model.addElement(game);
+				}
+				games.saveGames();
+				manageGameWords.setText("");
+				manageSolutionWord.setText("");
+				manageGameList.setModel(model);
+			}
+		});
+		btnUpdateSavedGames.setBounds(358, 428, 204, 25);
+		panelManage.add(btnUpdateSavedGames);
+
 		generateHTML1 = new JButton("Generate HTML");
 		generateHTML1.setForeground(new Color(0, 0, 0));
-		//generateHTML1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		// generateHTML1.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		generateHTML1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -769,18 +892,20 @@ public class GUI {
 
 		saveGameButton = new JButton("Save Game");
 		saveGameButton.setForeground(new Color(0, 0, 0));
-		//saveGameButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		// saveGameButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		saveGameButton.setBounds(497, 648, 216, 56);
-		saveGameButton.addActionListener(new ActionListener(){
+		saveGameButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(Config.gameBigWords != null && Config.solutionWord != null){
-					SavedGame game = new SavedGame(Config.solutionWord,Config.gameBigWords);
+				if (Config.gameBigWords != null && Config.solutionWord != null) {
+					SavedGame game = new SavedGame(Config.solutionWord,
+							Config.gameBigWords);
 					games.addGames(game);
 					games.saveGames();
 					growlerAdmin.showMessage("Saved Game");
-					System.out.println("Saved Game Count: "+games.getSavedGameCount());
+					System.out.println("Saved Game Count: "
+							+ games.getSavedGameCount());
 				}
 
 			}
@@ -896,19 +1021,34 @@ public class GUI {
 		if (Config.LANGUAGE.equals("En")) {
 			for (int i = 0; i < Config.solutionWord.size(); i++) {
 				for (int j = 0; j < Config.potentialGameWords.size(); j++) {
-					if (Config.potentialGameWords.get(j).getProcessedEnglish().get(Config.rebusX - 1).equals(Config.solutionWord.get(i))) {
+					if (Config.potentialGameWords.get(j).getProcessedEnglish()
+							.get(Config.rebusX - 1)
+							.equals(Config.solutionWord.get(i))) {
 						options.add(Config.potentialGameWords.get(j)
-								.getEnglish() + " [Word " + i + ", Rebus " + Config.rebusX + ", Letter " + Config.solutionWord.get(i) + "]\n");
+								.getEnglish()
+								+ " [Word "
+								+ i
+								+ ", Rebus "
+								+ Config.rebusX
+								+ ", Letter "
+								+ Config.solutionWord.get(i) + "]\n");
 					}
 				}
 			}
-		}
-		else {
+		} else {
 			for (int i = 0; i < Config.solutionWord.size(); i++) {
 				for (int j = 0; j < Config.potentialGameWords.size(); j++) {
-					if (Config.potentialGameWords.get(j).getProcessedTelegu().get(Config.rebusX - 1).equals(Config.solutionWord.get(i))) {
+					if (Config.potentialGameWords.get(j).getProcessedTelegu()
+							.get(Config.rebusX - 1)
+							.equals(Config.solutionWord.get(i))) {
 						options.add(Config.potentialGameWords.get(j)
-								.getTelugu() + " [Word " + i + ", Rebus " + Config.rebusX + ", Letter " + Config.solutionWord.get(i) + "]\n");
+								.getTelugu()
+								+ " [Word "
+								+ i
+								+ ", Rebus "
+								+ Config.rebusX
+								+ ", Letter "
+								+ Config.solutionWord.get(i) + "]\n");
 					}
 				}
 			}
@@ -921,15 +1061,18 @@ public class GUI {
 	private void generateChosenWords() {
 		solutionWordTextAreaAdmin.setText("");
 		if (Config.LANGUAGE.equals("En")) {
-			solutionWordTextFieldAdmin.setText(Config.solutionBigWord.getEnglish());
+			solutionWordTextFieldAdmin.setText(Config.solutionBigWord
+					.getEnglish());
 			for (int i = 0; i < Config.gameBigWords.size(); i++) {
-				solutionWordTextAreaAdmin.append(Config.gameBigWords.get(i).getProcessedWord() + "\n");
+				solutionWordTextAreaAdmin.append(Config.gameBigWords.get(i)
+						.getProcessedWord() + "\n");
 			}
-		}
-		else {
-			solutionWordTextFieldAdmin.setText(Config.solutionBigWord.getTelugu());
+		} else {
+			solutionWordTextFieldAdmin.setText(Config.solutionBigWord
+					.getTelugu());
 			for (int i = 0; i < Config.gameBigWords.size(); i++) {
-				solutionWordTextAreaAdmin.append(Config.gameBigWords.get(i).getProcessedWord() + "\n");
+				solutionWordTextAreaAdmin.append(Config.gameBigWords.get(i)
+						.getProcessedWord() + "\n");
 			}
 		}
 	}
@@ -947,18 +1090,18 @@ public class GUI {
 
 	private void setButtonStatuses() {
 		String solutionWordTextField = solutionWordTextFieldAdmin.getText();
-		solutionWordTextField.replaceAll("\\s+","");
+		solutionWordTextField.replaceAll("\\s+", "");
 		String solutionWordTextArea = solutionWordTextAreaAdmin.getText();
-		solutionWordTextArea.replaceAll("\\s+","");
-		//Committ Manually Typed Entries Button
+		solutionWordTextArea.replaceAll("\\s+", "");
+		// Committ Manually Typed Entries Button
 		btnNewButton.setEnabled(true);
 		generateHTML1.setEnabled(true);
 		saveGameButton.setEnabled(true);
 		solutionWordButtonAdmin.setEnabled(true);
-		//Clear All Fields Button
+		// Clear All Fields Button
 		btnNewButton_2.setEnabled(true);
 		swapButton.setEnabled(true);
-		//If Jlist is empty
+		// If Jlist is empty
 		if (Config.gameBigWords.size() == 0) {
 			generateHTML1.setEnabled(false);
 			saveGameButton.setEnabled(false);
@@ -976,8 +1119,7 @@ public class GUI {
 					btnNewButton_2.setEnabled(false);
 				}
 			}
-		}
-		else if (solutionWordTextArea.equals("")) {
+		} else if (solutionWordTextArea.equals("")) {
 			btnNewButton.setEnabled(false);
 			generateHTML1.setEnabled(false);
 			saveGameButton.setEnabled(false);

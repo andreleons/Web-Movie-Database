@@ -6,22 +6,26 @@ import java.util.ArrayList;
 
 public class SavedGame implements Serializable{
 
-	private ArrayList<String> solutionWord;
+	private String solutionWord;
 	private ArrayList<BigWord> gameWords;
 	
 	
 	public SavedGame(ArrayList<String> solutionWord2, ArrayList<BigWord> gameWords){
-		this.solutionWord = solutionWord2;
+		setSolutionWord(solutionWord2);
 		this.gameWords = gameWords;
 		
 	}
 
-	public ArrayList<String> getSolutionWord() {
+	public String getSolutionWord() {
 		return solutionWord;
 	}
 
 	public void setSolutionWord(ArrayList<String> solutionWord) {
-		this.solutionWord = solutionWord;
+		String word = "";
+		for(String letter : solutionWord){
+			word +=letter;
+		}
+		this.solutionWord = word;
 	}
 
 	public ArrayList<BigWord> getGameWords() {

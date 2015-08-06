@@ -25,6 +25,14 @@ public class HtmlOutputProducer {
 		
 		return output;
 	}
+	private static String buildOutputBoardFromSavedGame(SavedGame game){
+		String output = "<html><head><meta charset=utf-8><title>Rebus</title></head><body>";
+		output += HtmlGameProducer.buildBoardFromSavedGame(game);
+		output += HtmlSolutionProducer.buildBoardFromSavedGame(game);
+		output += "</body></html>";
+		
+		return output;
+	}
 	public static void openHtml() {
 		saveNewFile(buildOutputBoard());
 	
@@ -38,7 +46,19 @@ public class HtmlOutputProducer {
 			e.printStackTrace();
 		}
 	}
+	public static void openHtml(SavedGame game) {
+		saveNewFile(buildOutputBoardFromSavedGame(game));
+	
+		File htmlFile = new File("rebus.html");
 
+		// open the default web browser for the HTML page
+		try {
+			Desktop.getDesktop().browse(htmlFile.toURI());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	private static boolean saveNewFile(String contents) {
 
 		try {

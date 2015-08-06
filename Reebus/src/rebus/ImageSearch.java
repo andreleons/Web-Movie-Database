@@ -54,11 +54,12 @@ public class ImageSearch {
 					break;
 					
 				} catch (Exception e) {
+					
 					if(j < js.length()){
 						continue;
-					} else {
-						imageUrl = noImageUrl;
 					}
+					imageUrl = noImageUrl;
+					
 				}
 				// reached here without error have a good image
 				
@@ -71,5 +72,14 @@ public class ImageSearch {
 			
 		}
 		return imageUrl;
+	}
+	
+	public static String imageVerifcation(String word){
+		try{
+			ImageIO.read(new URL(word));
+		}catch(Exception e){
+			return noImageUrl;
+		}
+		return word;
 	}
 }
