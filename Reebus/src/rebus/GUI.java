@@ -835,18 +835,32 @@ public class GUI {
 		JLabel lblGameWords_1 = new JLabel("Game Words:");
 		lblGameWords_1.setBounds(62, 177, 89, 16);
 		panelManage.add(lblGameWords_1);
-
+		
 		manageGameWords = new JTextArea();
-		manageGameWords.setBounds(153, 177, 116, 220);
-		panelManage.add(manageGameWords);
+		
+		JScrollPane scrollGame = new JScrollPane();
+		scrollGame
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollGame
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollGame.setBounds(153, 177, 116, 220);
+		panelManage.add(scrollGame);
+		
 		manageGameWords.setEditable(false);
-
+		scrollGame.setViewportView(manageGameWords);
 		JLabel lblGames = new JLabel("Games");
 		lblGames.setBounds(437, 126, 56, 16);
 		panelManage.add(lblGames);
 
-		manageGameList.setBounds(358, 155, 204, 242);
-		panelManage.add(manageGameList);
+		
+		JScrollPane scrollGameList = new JScrollPane();
+		scrollGameList
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollGameList
+				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollGameList.setBounds(358, 155, 204, 242);
+		panelManage.add(scrollGameList);
+		scrollGameList.setViewportView(manageGameList);
 
 		JButton btnGenerateHtml = new JButton("Generate HTML");
 		btnGenerateHtml.addActionListener(new ActionListener() {
@@ -864,6 +878,7 @@ public class GUI {
 		btnUpdateSavedGames.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultListModel model = new DefaultListModel();
+				selectedSavedGame = null;
 				for (SavedGame game : games.getGames()) {
 					model.addElement(game);
 				}
@@ -882,8 +897,11 @@ public class GUI {
 		generateHTML1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				HtmlOutputProducer.openHtml();
-				growlerAdmin.showMessage("Generated HTML");
+				if (Config.solutionWord != null && Config.gameBigWords != null) {
+					HtmlOutputProducer.openHtml();
+					growlerAdmin.showMessage("Generated HTML");
+				}
+				growlerAdmin.showMessage("No game to create HTML ");
 			}
 		});
 
@@ -899,8 +917,9 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (Config.gameBigWords != null && Config.solutionWord != null) {
-					SavedGame game = new SavedGame(new ArrayList<String>(Config.solutionWord),
-							new ArrayList<BigWord>(Config.gameBigWords));
+					SavedGame game = new SavedGame(new ArrayList<String>(
+							Config.solutionWord), new ArrayList<BigWord>(
+							Config.gameBigWords));
 					games.addGames(game);
 					games.saveGames();
 					growlerAdmin.showMessage("Saved Game");
